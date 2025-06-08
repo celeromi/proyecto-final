@@ -1,2 +1,4 @@
 #gitignore archivos locales de Gaston
 #htdocs.lnk
+catan.md
+.gitignore
