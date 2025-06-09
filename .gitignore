@@ -1,4 +1,7 @@
-#gitignore archivos locales de Gaston
-#htdocs.lnk
-catan.md
+# Testeos y soporte local
+/_testeos/
+/_varios/
+/_varios_db/
+
+# No se sube nada
 .gitignore
