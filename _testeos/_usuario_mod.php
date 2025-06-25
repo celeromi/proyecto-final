@@ -10,7 +10,7 @@ $usuario = new Usuario(
     3454234567,                // contacto
     'Avenida Siempreviva 742', // direccion
     'gfarias',                 // usuario
-    'securepass711',           // contrasena
+    'securepass742',           // contrasena
     0                          // archivado
 );
 
