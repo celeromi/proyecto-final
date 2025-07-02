@@ -39,19 +39,19 @@ if ($usuarioPorNombre) {
     $usuarioMod = new Usuario(
         $usuarioPorNombre['dni'],
         $usuarioPorNombre['cuil'],
-        'nuevo_email@test.com',               // nuevo correo
-        $usuarioPorNombre['nombre'],
-        $usuarioPorNombre['apellido'],
-        3517654321,                           // nuevo contacto
-        $usuarioPorNombre['direccion'],
-        $usuarioPorNombre['usuario'],
-        $usuarioPorNombre['contrasena'],
+        '_testuser@email.com',          // correo
+        '_Test',                        // nombre
+        '_User',                        // apellido
+        123456789,                      // nuevo contacto
+        '_Calle Test 123',              // direccion
+        '_testuser123',                 // usuario
+        '_claveTemporal2025',           // contrasena
         $usuarioPorNombre['archivado']
     );
     $usuarioMod->setIdUsuario($usuarioPorNombre['id_usuario']);
     actualizarUsuario($usuarioMod, $pdo);
     echo "Usuario actualizado correctamente.<br>";
-    echo "<pre>" . print_r($usuarioPorNombre, true) . "</pre>";}
+    echo "<pre>" . print_r($usuarioPorNombre, true) . "</pre>";
 
     //  Archivar el usuario creado
     echo "<h3> Archivando el usuario creado...</h3>";
