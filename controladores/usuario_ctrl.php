@@ -66,4 +66,62 @@ function archivarUsuario($id, PDO $pdo) {
     $stmt = $pdo->prepare("UPDATE usuario SET archivado = 1 WHERE id_usuario = ?");
     $stmt->execute([$id]);
 }
+
+// Verificar credenciales (sin iniciar sesión)
+function verificarCredenciales($usuario, $contrasena, PDO $pdo) {
+    $stmt = $pdo->prepare("SELECT * FROM usuario WHERE usuario = ? AND archivado = 0");
+    $stmt->execute([$usuario]);
+    $usuarioData = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($usuarioData && $usuarioData['contrasena'] === $contrasena) {
+        return $usuarioData;
+    }
+    return false;
+}
+
+// Loguearse: inicia sesión si las credenciales son válidas
+function loguearse($usuario, $contrasena, PDO $pdo) {
+    $usuarioData = verificarCredenciales($usuario, $contrasena, $pdo);
+
+    if ($usuarioData) {
+        // Suponemos que session_start() ya fue llamado por quien usa esta función
+        $_SESSION['usuario'] = [
+            'id_usuario' => $usuarioData['id_usuario'],
+            'nombre'     => $usuarioData['nombre'],
+            'apellido'   => $usuarioData['apellido'],
+            'correo'     => $usuarioData['correo'],
+            'nivel'      => $usuarioData['nivel'] ?? null
+        ];
+        return true;
+    }
+    return false;
+}
+
+// Obtener usuario por DNI
+function obtenerUsuarioPorDNI($dni, PDO $pdo) {
+    $stmt = $pdo->prepare("SELECT * FROM usuario WHERE dni = ?");
+    $stmt->execute([$dni]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+// Obtener usuario por CUIL
+function obtenerUsuarioPorCUIL($cuil, PDO $pdo) {
+    $stmt = $pdo->prepare("SELECT * FROM usuario WHERE cuil = ?");
+    $stmt->execute([$cuil]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+// Obtener usuario por Correo
+function obtenerUsuarioPorCorreo($correo, PDO $pdo) {
+    $stmt = $pdo->prepare("SELECT * FROM usuario WHERE correo = ?");
+    $stmt->execute([$correo]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+// Eliminar físicamente un usuario por ID (uso puntual)
+function eliminarUsuarioPorId($id_usuario, PDO $pdo) {
+    $stmt = $pdo->prepare("DELETE FROM usuario WHERE id_usuario = ?");
+    $stmt->execute([$id_usuario]);
+}
+
 ?>

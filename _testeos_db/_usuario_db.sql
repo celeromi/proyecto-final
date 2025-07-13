@@ -37,3 +37,8 @@ VALUES
 (12345695, 20123456796, 'rfernandez@gmail.com', 'Romina', 'Fernández', 3454234584, 'Calle 17 116', 'rfernandez', 'pass123', 0),
 (12345696, 20123456797, 'cbenitez@gmail.com', 'Carlos', 'Benítez', 3454234585, 'Calle 18 117', 'cbenitez', 'pass123', 0),
 (12345697, 20123456798, 'fsolis@gmail.com', 'Florencia', 'Solis', 3454234586, 'Calle 19 118', 'fsolis', 'pass123', 0);
+
+USE `_baer_db`;
+DELETE FROM usuario;
+ALTER TABLE usuario AUTO_INCREMENT = 1;
+
