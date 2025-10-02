@@ -3,7 +3,7 @@
    class Model{
 
         function __construct(){
-            echo '<p>Modelo Base</p>';
+            //echo '<p>Modelo Base</p>';
         }
 
    } 

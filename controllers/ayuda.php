@@ -4,7 +4,7 @@
     
         function __construct(){
             parent::__construct();
-            echo '<p>Controlador de Ayuda</p>';
+            //echo '<p>Controlador de Ayuda</p>';
             $this->view->render('ayuda/index');
         }
    } 

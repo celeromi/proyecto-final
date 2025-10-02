@@ -1,8 +1,5 @@
 # Testeos y soporte local
-/_testeos/
-/_testeos_db/
-/_varios/
-/_varios_db/
+/_*
 
 # No se sube nada
 .gitignore

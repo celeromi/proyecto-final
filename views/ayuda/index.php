@@ -6,6 +6,14 @@
     <title>Document</title>
 </head>
 <body>
-    <p style ="color:blue;">Vista de Ayuda</p>
+
+    <?php require 'views/layouts/header.php';?>
+    
+    <div id="main">
+        <h1 class="center">Seccion de Ayuda</h1>
+    </div>
+
+    <?php require 'views/layouts/footer.php';?>
+
 </body>
 </html>

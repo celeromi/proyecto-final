@@ -5,7 +5,7 @@ require_once 'libs/model.php';
 require_once 'libs/view.php';
 require_once 'libs/app.php';
 
-echo "Index Principal";
+//echo "Index Principal";
 $app = new App();
 
 ?>

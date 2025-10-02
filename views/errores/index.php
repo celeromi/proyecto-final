@@ -6,6 +6,14 @@
     <title>Document</title>
 </head>
 <body>
-    <p style ="color:red;">Vista de Error → <?php echo $this->mensaje;?></p>
+    
+    <?php require 'views/layouts/header.php';?>
+    
+    <div id="main">
+        <h1 class="center error"><?php echo $this->mensaje;?></h1>
+    </div>
+
+    <?php require 'views/layouts/footer.php';?>
+
 </body>
 </html>

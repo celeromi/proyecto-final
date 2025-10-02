@@ -6,12 +6,11 @@
     <title>Document</title>
 </head>
 <body>
-    
-    <!-- <p style ="color:green;">Vista de Main</p> -->
+
     <?php require 'views/layouts/header.php';?>
     
     <div id="main">
-        <h1 class="center">Bienvenido al sitio</h1>
+        <h1 class="center">Seccion de Consulta</h1>
     </div>
 
     <?php require 'views/layouts/footer.php';?>
