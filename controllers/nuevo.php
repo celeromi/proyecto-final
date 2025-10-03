@@ -7,6 +7,11 @@
             $this->view->render('nuevo/index');
         }
 
+        function registrar(){
+            echo "Registro Creado";
+            $this->model->insert();
+        }
+
    } 
 
 ?>
