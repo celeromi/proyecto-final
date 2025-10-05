@@ -10,7 +10,11 @@
     <?php require 'views/layouts/header.php';?>
     
     <div id="main">
+
         <h1 class="center">Seccion de Nuevo</h1>
+        
+        <div class="center"><?php echo $this->mensaje; ?></div>
+        
         <form action="<?php echo constant('URL');?>nuevo/registrar" method="POST">
             <P>
                 <label for="matricula">matricula</label><br>
@@ -18,14 +22,14 @@
             </P>
             <P>
                 <label for="nombre">nombre</label><br>
-                <input type="text" name="nombre" id="">
+                <input type="text" name="nombre" id="" required>
             </P>
             <P>
                 <label for="apellido">apellido</label><br>
-                <input type="text" name="apellido" id="">
+                <input type="text" name="apellido" id="" required>
             </P>
             <p>
-                <input type="submit" value="Registrar">
+                <input type="submit" value="Registrar" required>
             </p>
     </div>
 
