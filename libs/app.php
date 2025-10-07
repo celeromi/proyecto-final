@@ -28,13 +28,29 @@
                 // Inicializo el controlador
                 $controller = new $url[0];
                 $controller->loadModel($url[0]);
-                
-                //Si hay metodo que se necesita cargar
-                if(isset($url[1])){
-                    $controller->{$url[1]}();
+
+                //tomar parametros
+                $nparam = sizeof($url);
+                if($nparam>1){
+                    if($nparam>2){
+                        $param = [];
+                        for($i = 2; $i<$nparam; $i++){
+                            array_push($param, $url[$i]);
+                        }
+                        $controller->{$url[1]}($param);
+                    }else{
+                        $controller->{$url[1]}();
+                    }
                 }else{
                     $controller->render();
                 }
+                
+                //Si hay metodo que se necesita cargar
+                //if(isset($url[1])){
+                //    $controller->{$url[1]}();
+                //}else{
+                //   $controller->render();
+                //}
 
             }else{
                 require_once 'controllers/errores.php';
