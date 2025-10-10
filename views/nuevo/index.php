@@ -11,13 +11,13 @@
     
     <div id="main">
 
-        <h1 class="center">Seccion de Nuevo</h1>
+        <h1 class="center">Seccion de Nuevo Usuario</h1>
         
         <div class="center"><?php echo $this->mensaje; ?></div>
         
         <form action="<?php echo constant('URL');?>nuevo/registrar" method="POST">
             <P>
-                <label for="matricula">matricula</label><br>
+                <label for="matricula">Identificador</label><br>
                 <input type="text" name="matricula" id="">
             </P>
             <P>

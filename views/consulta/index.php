@@ -14,7 +14,7 @@
         <table whidth="100%">
             <thead>
                 <tr>
-                    <th>Matrícula</th>
+                    <th>Identificador</th>
                     <th>Nombre</th>
                     <th>Apellido</th>
                     <th>Editar</th>

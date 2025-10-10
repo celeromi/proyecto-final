@@ -11,7 +11,7 @@
     <?php require 'views/layouts/header.php';?>
     
     <div id="main">
-        <h1 class="center">Bienvenido al sitio</h1>
+        <h1 class="center">Bienvenido a Baer</h1>
     </div>
 
     <?php require 'views/layouts/footer.php';?>
