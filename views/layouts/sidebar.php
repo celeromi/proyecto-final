@@ -11,8 +11,8 @@
   <ul class="nav nav-pills nav-flush flex-column mb-auto text-center">
 
     <!-- Usuarios -->
-    <li class="nav-item">
-      <a href="<?php echo constant('URL'); ?>usuarios" 
+    <li class="nav-item"> 
+      <a href="<?php echo constant('URL'); ?>usuario_r" 
          class="nav-link py-3 border-bottom" 
          title="Usuarios" data-bs-toggle="tooltip" data-bs-placement="right">
         <img src="<?php echo constant('URL'); ?>public/icons/person-gear.svg" 
