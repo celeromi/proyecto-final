@@ -5,6 +5,9 @@
         function __construct(){
             
             //echo '<p>Nueva App</p>';
+
+            /* Aca debería controlarse la sesion, si no hya sesion redirige al login */
+            /* en lo demas debería haber cambios? */
             
             $url = isset($_GET['url']) ? $_GET['url'] : null; //si exsite es y sino es null
             $url = rtrim($url, '/');

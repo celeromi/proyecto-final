@@ -8,7 +8,7 @@ class ConsultaModel extends Model{
         parent::__construct();
     }
 
-    /* public function get(){
+    public function get(){
         $items = [];
         try{
             
@@ -29,7 +29,7 @@ class ConsultaModel extends Model{
             return[];
         }
 
-    } */
+    }
 
     /* public function getById($id){
         $item = new Alumno();
