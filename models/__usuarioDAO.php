@@ -17,18 +17,18 @@ class UsuarioDAO extends Model{
             $query = $this->db->connect()->query("SELECT * FROM usuarios");
             
             while($row = $query->fetch()){
-                $item = new Usuario();
-                $item->setIdUsuario($row['id_usuario']);
-                $item->setDni($row['dni']);
-                $item->setCuil($row['cuil']);
-                $item->setCorreo($row['correo']);
-                $item->setNombre($row['nombre']);
-                $item->setApellido($row['apellido']);
-                $item->setContacto($row['contacto']);
-                $item->setDireccion($row['direccion']);
-                $item->setUsuario($row['usuario']);
-                $item->setContrasena($row['contrasena']);
-                $item->setArchivado($row['archivado']);
+                $item               = new Usuario();
+                
+                $item->dni          = $row['dni'];
+                $item->cuil         = $row['cuil'];
+                $item->correo       = $row['correo'];
+                $item->nombre       = $row['nombre'];
+                $item->apellido     = $row['apellido'];
+                $item->contacto     = $row['contacto'];
+                $item->direccion    = $row['direccion'];
+                $item->usuario      = $row['usuario'];
+                $item->contrasena   = $row['contrasena'];
+                $item->archivado    = $row['archivado'];
 
                 array_push($items, $item);
             }
