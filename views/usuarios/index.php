@@ -14,18 +14,14 @@
   <div class="d-flex flex-column flex-grow-1">
     <?php include('views/layouts/header.php'); ?>
 
-    <!-- CONTENIDO PRINCIPAL -->
+    <!--  -->
     <main class="p-4 flex-grow-1">
       <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="text-success mb-0">Panel de Usuarios</h1>
-        <a href="<?php echo constant('URL');?>usuarios/nuevo" class="btn btn-success"> <!--  -->
+        <a href="<?php echo constant('URL');?>usuarios/create" class="btn btn-success"> <!--  -->
           <i class="bi bi-person-plus"></i> Nuevo Usuario
         </a>
       </div>
-
-      <!--  -->
-      <!-- Necesito los usuarios $usuarios aca -->
-      <!--  -->
 
       <?php if (!empty($this->usuarios)) : ?>
         <div class="table-responsive shadow rounded">
@@ -80,7 +76,7 @@
         </div>
       <?php endif; ?>
     </main>
-    <!-- FIN CONTENIDO PRINCIPAL -->
+    <!--  -->
 
   </div>
 

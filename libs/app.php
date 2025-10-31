@@ -42,18 +42,17 @@
                         }
                         $controller->{$url[1]}($param);
                     }else{
-                        $controller->{$url[1]}();
+                        /* no es infalible, mayormente cubierto */
+                        if (method_exists($controller, $url[1])) {
+                            $controller->{$url[1]}();
+                        } else {
+                            require_once 'controllers/errores.php';
+                            $controller = new Errores();
+                        }
                     }
                 }else{
                     $controller->render();
                 }
-                
-                //Si hay metodo que se necesita cargar
-                //if(isset($url[1])){
-                //    $controller->{$url[1]}();
-                //}else{
-                //   $controller->render();
-                //}
 
             }else{
                 require_once 'controllers/errores.php';

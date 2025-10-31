@@ -13,7 +13,6 @@ class Usuario {
     private $contrasena;
     private $archivado;
 
-    // Constructor
     public function __construct(
         $dni = null, $cuil = null, $correo = null, $nombre = null, $apellido = null,
         $contacto = null, $direccion = null, $usuario = null, $contrasena = null, $archivado = 0){
@@ -30,7 +29,6 @@ class Usuario {
         $this->archivado  = $archivado;
     }
 
-    // Getters
     public function getIdUsuario()     { return $this->id_usuario; }
     public function getDni()           { return $this->dni; }
     public function getCuil()          { return $this->cuil; }
@@ -43,7 +41,6 @@ class Usuario {
     public function getContrasena()    { return $this->contrasena; }
     public function getArchivado()     { return $this->archivado; }
 
-    // Setters
     public function setIdUsuario($id)            { $this->id_usuario = $id; }
     public function setDni($dni)                 { $this->dni = $dni; }
     public function setCuil($cuil)               { $this->cuil = $cuil; }

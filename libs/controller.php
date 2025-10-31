@@ -1,16 +1,12 @@
 <?php
 
-class Controller
-{
+class Controller{
 
-    function __construct()
-    {
-        /* echo '<p>Controllador Base</p>'; */
+    function __construct(){
         $this->view = new View();
     }
 
-    function loadModel($model)
-    {
+    function loadModel($model){
         $url = 'models/' . $model . 'model.php';
 
         if (file_exists($url)) {
@@ -20,3 +16,5 @@ class Controller
         }
     }
 }
+
+?>
