@@ -8,6 +8,8 @@ class UsuarioDAO extends Model {
         parent::__construct();
     }
 
+    
+    /* controlar el default de archivado a 0 */
     public function create(Usuario $usuario) {
         try {
             $query = $this->db->connect()->prepare(" INSERT INTO usuarios 
@@ -29,15 +31,16 @@ class UsuarioDAO extends Model {
 
             return true;
         } catch (PDOException $e) {
-            error_log('UsuarioDAO::create -> ' . $e->getMessage());
+            /* pendiente a mejorar mensaje de error */
             return false;
         }
     }
 
+    /* a futuro podría modificarse para darle un atributo // → 0 = visibles // → 1 = ocultos // → 2 = todos // */
     public function read() {
         $items = [];
         try {
-            $query = $this->db->connect()->query("SELECT * FROM usuarios");
+            $query = $this->db->connect()->query("SELECT * FROM usuarios /* clavar un where aca */");
 
             while ($row = $query->fetch()) {
                 $item = new Usuario();
@@ -58,13 +61,22 @@ class UsuarioDAO extends Model {
             return $items;
 
         } catch (PDOException $e) {
-            error_log('UsuarioDAO::read -> ' . $e->getMessage());
+            /* pendiente a mejorar mensaje de error */
             return [];
         }
     }
 
+    public function find_id($id){
+        /* pendienete a implmentar, no importa si esta archivado*/
+    }
+
+        public function find_dni($dni){
+        /* pendienete a implmentar, importa si esta archivado?*/
+    }
+
     public function update(Usuario $usuario) {
         try {
+            /* todo menos archivado */
             $query = $this->db->connect()->prepare("
                 UPDATE usuarios SET
                     dni = :dni,
@@ -75,10 +87,8 @@ class UsuarioDAO extends Model {
                     contacto = :contacto,
                     direccion = :direccion,
                     usuario = :usuario,
-                    contrasena = :contrasena,
-                    archivado = :archivado
-                WHERE id_usuario = :id_usuario
-            ");
+                    contrasena = :contrasena
+                WHERE id_usuario = :id_usuario");
 
             $query->execute([
                 'dni'         => $usuario->getDni(),
@@ -90,13 +100,12 @@ class UsuarioDAO extends Model {
                 'direccion'   => $usuario->getDireccion(),
                 'usuario'     => $usuario->getUsuario(),
                 'contrasena'  => $usuario->getContrasena(),
-                'archivado'   => $usuario->getArchivado(),
                 'id_usuario'  => $usuario->getIdUsuario()
             ]);
 
             return true;
         } catch (PDOException $e) {
-            error_log('UsuarioDAO::update -> ' . $e->getMessage());
+            /* pendiente a mejorar mensaje de error */
             return false;
         }
     }
@@ -109,7 +118,7 @@ class UsuarioDAO extends Model {
             $query->execute(['id_usuario' => $id_usuario]);
             return true;
         } catch (PDOException $e) {
-            error_log('UsuarioDAO::hide -> ' . $e->getMessage());
+            /* pendiente a mejorar mensaje de error */
             return false;
         }
     }
@@ -122,7 +131,7 @@ class UsuarioDAO extends Model {
             $query->execute(['id_usuario' => $id_usuario]);
             return true;
         } catch (PDOException $e) {
-            error_log('UsuarioDAO::delete -> ' . $e->getMessage());
+            /* pendiente a mejorar mensaje de error */
             return false;
         }
     }
