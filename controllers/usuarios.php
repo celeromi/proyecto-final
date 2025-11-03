@@ -9,7 +9,7 @@
         function render(){
             include('models/usuarioDAO.php'); 
             $usuarioDAO = new UsuarioDAO();
-            $usuarios = $usuarioDAO->read(/* si le pongo atributo? para buscar solo los visibles */);
+            $usuarios = $usuarioDAO->read(0);
             $this->view->usuarios = $usuarios;
             $this->view->render('usuarios/index');
         }
@@ -18,13 +18,44 @@
             $this->view->render('usuarios/create');
         }
 
-        function insert(){
-            /* pendiente a implmentar */
+        /* pendiente a implmentar sistema de validación de datos */
+        function insert() {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+                include('models/usuario.php'); 
+                $usuario = new Usuario();
+                $usuario->setDni($_POST['dni']);
+                $usuario->setCuil($_POST['cuil']);
+                $usuario->setCorreo($_POST['correo']);
+                $usuario->setNombre($_POST['nombre']);
+                $usuario->setApellido($_POST['apellido']);
+                $usuario->setContacto($_POST['contacto']);
+                $usuario->setDireccion($_POST['direccion']);
+                $usuario->setUsuario($_POST['usuario']);
+                $usuario->setContrasena($_POST['contrasena']);
+                $usuario->setArchivado(0); /* Esta visible / No esta oculto*/
+
+                include('models/usuarioDAO.php'); 
+                $usuarioDAO = new UsuarioDAO();
+                $resultado = $usuarioDAO->create($usuario);
+
+                if ($resultado) {
+                    /* pendiente a implmentar sistema de mensajes */
+                    $this->view->usuarios = $usuarios;
+                    $this->view->render('usuarios/index');
+                } else {
+                    /* pendiente a mejorar sistema de errores */
+                    $controller = new Errores();
+                }
+            } else {
+                /* pendiente a mejorar sistema de errores */
+                $controller = new Errores();
+            }
         }
 
-        function find(){
-            $this->view->render('usuarios/find');
-        }
+            function find(){
+                $this->view->render('usuarios/find');
+            }
 
         function update(){
             /* pendiente a implmentar */

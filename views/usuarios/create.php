@@ -18,15 +18,16 @@
     <main class="p-4 flex-grow-1">
       <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="text-success mb-0">Nuevo Usuario</h1>
-        <a href="<?php echo constant('URL');?>usuarios" class="btn btn-secondary">
+        <!-- <a href="<?php/*  echo constant('URL'); */?>usuarios" class="btn btn-secondary">
           <i class="bi bi-arrow-left"></i> Volver
-        </a>
+        </a> -->
       </div>
 
       <!--  -->
       <div class="d-flex justify-content-center">
         <div class="card shadow-sm p-4 rounded-4" style="max-width: 600px; width: 100%;">
-          <form action="<?php echo constant('URL');?>usuarios/store" method="POST" autocomplete="off">
+          <!-- Si confirma intenta insertar en DB -->
+          <form action="<?php echo constant('URL');?>usuarios/insert" method="POST" autocomplete="off">
 
             <div class="row mb-3">
               <div class="col-md-6">
@@ -77,11 +78,13 @@
               </div>
             </div>
 
+            <!-- Boton de Aceptar -->
             <div class="d-flex justify-content-end mt-4">
               <button type="submit" class="btn btn-success me-2">
                 <i class="bi bi-check-circle"></i> Aceptar
               </button>
-              <a href="<?php echo constant('URL');?>usuarios" class="btn btn-danger">
+              <!-- Si falla vuelve a usuarios -->
+              <a href="<?php echo constant('URL');?>usuarios" class="btn btn-danger"> 
                 <i class="bi bi-x-circle"></i> Cancelar
               </a>
             </div>

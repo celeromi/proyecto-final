@@ -9,7 +9,7 @@ class UsuarioDAO extends Model {
     }
 
     
-    /* controlar el default de archivado a 0 */
+    /* controlar el default de archivado es 0 */
     public function create(Usuario $usuario) {
         try {
             $query = $this->db->connect()->prepare(" INSERT INTO usuarios 
@@ -37,10 +37,18 @@ class UsuarioDAO extends Model {
     }
 
     /* a futuro podría modificarse para darle un atributo // → 0 = visibles // → 1 = ocultos // → 2 = todos // */
-    public function read() {
+    public function read($option) {
         $items = [];
         try {
-            $query = $this->db->connect()->query("SELECT * FROM usuarios /* clavar un where aca */");
+
+            /* Se podría mejorar */
+            if($option == 0){
+                $query = $this->db->connect()->query("SELECT * FROM usuarios WHERE archivado = 0");
+            }elseif($option == 1){
+                $query = $this->db->connect()->query("SELECT * FROM usuarios WHERE archivado = 1");
+            }else{
+                $query = $this->db->connect()->query("SELECT * FROM usuarios");
+            }
 
             while ($row = $query->fetch()) {
                 $item = new Usuario();
@@ -70,7 +78,7 @@ class UsuarioDAO extends Model {
         /* pendienete a implmentar, no importa si esta archivado*/
     }
 
-        public function find_dni($dni){
+    public function find_dni($dni){
         /* pendienete a implmentar, importa si esta archivado?*/
     }
 
