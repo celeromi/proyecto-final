@@ -1,5 +1,9 @@
 <?php
 
+    include('models/usuario.php');     
+    include('models/usuarioDAO.php');
+    include('controllers/errores.php');
+
    class Usuarios extends Controller{
 
         function __construct(){
@@ -7,7 +11,7 @@
         }
 
         function render(){
-            include('models/usuarioDAO.php'); 
+             
             $usuarioDAO = new UsuarioDAO();
             $usuarios = $usuarioDAO->read(0);
             $this->view->usuarios = $usuarios;
@@ -22,7 +26,6 @@
         function insert() {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-                include('models/usuario.php'); 
                 $usuario = new Usuario();
                 $usuario->setDni($_POST['dni']);
                 $usuario->setCuil($_POST['cuil']);
@@ -35,7 +38,7 @@
                 $usuario->setContrasena($_POST['contrasena']);
                 $usuario->setArchivado(0); /* Esta visible / No esta oculto*/
 
-                include('models/usuarioDAO.php'); 
+                 
                 $usuarioDAO = new UsuarioDAO();
                 $resultado = $usuarioDAO->create($usuario);
 
@@ -53,21 +56,74 @@
             }
         }
 
-            function find(){
-                $this->view->render('usuarios/find');
-            }
+        function find(){
+            $this->view->render('usuarios/find');
+        }
 
         function update(){
             /* pendiente a implmentar */
         }
 
-        function hide(){
-            /* pendiente a implmentar */
+        //function hide($id){/* pendiente a implmentar */}
+
+        //function delete($id){/* pendiente a implmentar */}
+
+        function hide($param = null) {
+            if (isset($param) && is_array($param) && count($param) > 0) {
+                $id = $param[0]; // El primer valor del array es el ID
+
+                
+                $usuarioDAO = new UsuarioDAO();
+
+                $usuario = $usuarioDAO->find_id($id);
+
+                if ($usuario) {
+                    $resultado = $usuarioDAO->hide($usuario->getIdUsuario());
+
+                    if ($resultado) {
+                        /* pendiente a implmentar sistema de mensajes */
+                        $usuarios = $usuarioDAO->read(0);
+                        $this->view->usuarios = $usuarios;
+                        $this->view->render('usuarios/index');
+                    } else {
+                        $controller = new Errores();
+                    }
+                } else {
+                    $controller = new Errores();
+                }
+            } else {
+                $controller = new Errores();
+            }
         }
 
-        function delete(){
-            /* pendiente a implmentar */
+        function delete($param = null) {
+            if (isset($param) && is_array($param) && count($param) > 0) {
+                $id = $param[0]; // El primer valor del array es el ID
+
+                
+                $usuarioDAO = new UsuarioDAO();
+
+                $usuario = $usuarioDAO->find_id($id);
+
+                if ($usuario) {
+                    $resultado = $usuarioDAO->delete($usuario->getIdUsuario());
+
+                    if ($resultado) {
+                        /* pendiente a implmentar sistema de mensajes */
+                        $usuarios = $usuarioDAO->read(0);
+                        $this->view->usuarios = $usuarios;
+                        $this->view->render('usuarios/index');
+                    } else {
+                        $controller = new Errores();
+                    }
+                } else {
+                    $controller = new Errores();
+                }
+            } else {
+                $controller = new Errores();
+            }
         }
+
 
    } 
 

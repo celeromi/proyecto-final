@@ -50,19 +50,24 @@
                   <td><?php echo htmlspecialchars($usuario->getDireccion()); ?></td>
                   <td class="text-center">
                     <div class="btn-group" role="group">
-                      <a href="<?php echo constant('URL');?>usuarios/ver/<?php echo $usuario->getDni(); ?>" 
-                         class="btn btn-outline-primary btn-sm" data-bs-toggle="tooltip" title="Revisar">
-                        <i class="bi bi-eye"></i>
-                      </a>
-                      <a href="<?php echo constant('URL');?>usuarios/editar/<?php echo $usuario->getDni(); ?>" 
-                         class="btn btn-outline-warning btn-sm" data-bs-toggle="tooltip" title="Editar">
+                      <!--  -->
+                      <a href="<?php echo constant('URL');?>usuarios/find/<?php echo $usuario->getIdUsuario(); ?>" 
+                         class="btn btn-outline-primary btn-sm" data-bs-toggle="tooltip" title="Editar">
                         <i class="bi bi-pencil-square"></i>
                       </a>
-                      <a href="<?php echo constant('URL');?>usuarios/eliminar/<?php echo $usuario->getDni(); ?>" 
+                      <!--  -->
+                      <a href="<?php echo constant('URL');?>usuarios/hide/<?php echo $usuario->getIdUsuario(); ?>" 
+                         class="btn btn-outline-warning btn-sm" data-bs-toggle="tooltip" title="Archivar"
+                         onclick="return confirm('¿Seguro que deseas archivar este usuario?');">
+                        <i class="bi bi-eye-slash"></i>
+                      </a>
+                      <!--  -->
+                      <a href="<?php echo constant('URL');?>usuarios/delete/<?php echo $usuario->getIdUsuario(); ?>" 
                          class="btn btn-outline-danger btn-sm" data-bs-toggle="tooltip" title="Eliminar" 
                          onclick="return confirm('¿Seguro que deseas eliminar este usuario?');">
                         <i class="bi bi-trash"></i>
                       </a>
+                      <!--  -->
                     </div>
                   </td>
                 </tr>
