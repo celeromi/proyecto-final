@@ -18,9 +18,9 @@
     <main class="p-4 flex-grow-1">
       <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="text-success mb-0">Nuevo Usuario</h1>
-        <!-- <a href="<?php/*  echo constant('URL'); */?>usuarios" class="btn btn-secondary">
+        <a href="<?php echo constant('URL');?>usuarios" class="btn btn-secondary">
           <i class="bi bi-arrow-left"></i> Volver
-        </a> -->
+        </a>
       </div>
 
       <!--  -->
@@ -92,10 +92,9 @@
         </div>
       </div>
       <!--  -->
+      
     </main>
-    <!--  -->
   </div>
-  <!--  -->
 
   <script src="<?php echo constant('URL');?>public/js/bootstrap.bundle.min.js"></script>
   <script>

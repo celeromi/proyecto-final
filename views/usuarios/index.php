@@ -23,6 +23,7 @@
         </a>
       </div>
 
+      <!--  -->
       <?php if (!empty($this->usuarios)) : ?>
         <div class="table-responsive shadow rounded">
           <table class="table table-striped align-middle">
@@ -51,13 +52,18 @@
                   <td class="text-center">
                     <div class="btn-group" role="group">
                       <!--  -->
-                      <a href="<?php echo constant('URL');?>usuarios/find/<?php echo $usuario->getIdUsuario(); ?>" 
-                         class="btn btn-outline-primary btn-sm" data-bs-toggle="tooltip" title="Editar">
+                      <a href="<?php echo constant('URL');?>usuarios/show/<?php echo $usuario->getIdUsuario(); ?>" 
+                         class="btn btn-outline-primary btn-sm" data-bs-toggle="tooltip" title="Ver">
+                        <i class="bi bi-eye"></i>
+                      </a>
+                    <!--  -->
+                      <a href="<?php echo constant('URL');?>usuarios/edit/<?php echo $usuario->getIdUsuario(); ?>" 
+                         class="btn btn-outline-warning btn-sm" data-bs-toggle="tooltip" title="Editar">
                         <i class="bi bi-pencil-square"></i>
                       </a>
                       <!--  -->
                       <a href="<?php echo constant('URL');?>usuarios/hide/<?php echo $usuario->getIdUsuario(); ?>" 
-                         class="btn btn-outline-warning btn-sm" data-bs-toggle="tooltip" title="Archivar"
+                         class="btn btn-outline-danger btn-sm" data-bs-toggle="tooltip" title="Archivar"
                          onclick="return confirm('¿Seguro que deseas archivar este usuario?');">
                         <i class="bi bi-eye-slash"></i>
                       </a>
@@ -80,9 +86,9 @@
           No hay usuarios registrados actualmente.
         </div>
       <?php endif; ?>
+      <!--  -->
     </main>
     <!--  -->
-
   </div>
 
   <script src="<?php echo constant('URL');?>public/js/bootstrap.bundle.min.js"></script>

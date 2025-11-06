@@ -72,14 +72,6 @@ class UsuarioDAO extends Model {
         }
     }
 
-    /* public function find_id($id){ */
-        /* pendienete a implmentar, no importa si esta archivado*/
-    /* } */
-
-    /* public function find_dni($dni){ */
-        /* pendienete a implmentar, importa si esta archivado?*/
-    /* } */
-
     public function find_id($id) {
         try {
             $query = $this->db->connect()->prepare("SELECT * FROM usuarios WHERE id_usuario = :id LIMIT 1");

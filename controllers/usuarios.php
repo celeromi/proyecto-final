@@ -11,7 +11,6 @@
         }
 
         function render(){
-             
             $usuarioDAO = new UsuarioDAO();
             $usuarios = $usuarioDAO->read(0);
             $this->view->usuarios = $usuarios;
@@ -56,22 +55,25 @@
             }
         }
 
-        function find(){
-            $this->view->render('usuarios/find');
+        function show(){
+            /* pendiente a implmentar */
+        }
+
+        function edit(){
+            /* pendiente a implmentar */
         }
 
         function update(){
             /* pendiente a implmentar */
         }
 
-        //function hide($id){/* pendiente a implmentar */}
-
-        //function delete($id){/* pendiente a implmentar */}
+        function find(){ 
+            /* Metodo para busqueda - pendiente a implmentar */
+        }
 
         function hide($param = null) {
             if (isset($param) && is_array($param) && count($param) > 0) {
                 $id = $param[0]; // El primer valor del array es el ID
-
                 
                 $usuarioDAO = new UsuarioDAO();
 
@@ -100,9 +102,7 @@
             if (isset($param) && is_array($param) && count($param) > 0) {
                 $id = $param[0]; // El primer valor del array es el ID
 
-                
                 $usuarioDAO = new UsuarioDAO();
-
                 $usuario = $usuarioDAO->find_id($id);
 
                 if ($usuario) {
@@ -123,7 +123,6 @@
                 $controller = new Errores();
             }
         }
-
 
    } 
 
