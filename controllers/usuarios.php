@@ -37,14 +37,12 @@
                 $usuario->setContrasena($_POST['contrasena']);
                 $usuario->setArchivado(0); /* Esta visible / No esta oculto*/
 
-                 
                 $usuarioDAO = new UsuarioDAO();
                 $resultado = $usuarioDAO->create($usuario);
 
                 if ($resultado) {
                     /* pendiente a implmentar sistema de mensajes */
-                    $this->view->usuarios = $usuarios;
-                    $this->view->render('usuarios/index');
+                    $this->render();
                 } else {
                     /* pendiente a mejorar sistema de errores */
                     $controller = new Errores();
@@ -55,16 +53,86 @@
             }
         }
 
-        function show(){
-            /* pendiente a implmentar */
+        function show($param = null) {
+            if (isset($param) && is_array($param) && count($param) > 0) {
+                $id = $param[0]; // El ID del usuario desde la URL
+
+                $usuarioDAO = new UsuarioDAO();
+                $usuario = $usuarioDAO->find_id($id);
+
+                if ($usuario) {
+                    // Pasamos el usuario a la vista
+                    $this->view->usuario = $usuario;
+                    $this->view->render('usuarios/show');
+                } else {
+                    // Si no lo encuentra, mostramos error
+                    $controller = new Errores();
+                }
+            } else {
+                // Si no hay parámetro o está mal formado
+                $controller = new Errores();
+            }
         }
 
-        function edit(){
-            /* pendiente a implmentar */
+        function edit($param = null){
+            if (isset($param) && is_array($param) && count($param) > 0) {
+                $id = $param[0]; // El ID del usuario desde la URL
+
+                $usuarioDAO = new UsuarioDAO();
+                $usuario = $usuarioDAO->find_id($id);
+
+                if ($usuario) {
+                    // Pasamos el usuario a la vista
+                    $this->view->usuario = $usuario;
+                    $this->view->render('usuarios/edit');
+                } else {
+                    // Si no lo encuentra, mostramos error
+                    $controller = new Errores();
+                }
+            } else {
+                // Si no hay parámetro o está mal formado
+                $controller = new Errores();
+            }
         }
 
-        function update(){
-            /* pendiente a implmentar */
+        function update() {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+                $usuario = new Usuario();
+
+                $usuario->setIdUsuario($_POST['id_usuario']);
+                $usuario->setDni($_POST['dni']);
+                $usuario->setCuil($_POST['cuil']);
+                $usuario->setCorreo($_POST['correo']);
+                $usuario->setNombre($_POST['nombre']);
+                $usuario->setApellido($_POST['apellido']);
+                $usuario->setContacto($_POST['contacto']);
+                $usuario->setDireccion($_POST['direccion']);
+                $usuario->setUsuario($_POST['usuario']);
+
+                /* Si el campo contraseña está vacío, mantenemos la actual */
+                if (!empty($_POST['contrasena'])) {
+                    $usuario->setContrasena($_POST['contrasena']);
+                } else {
+                    $usuarioDAO = new UsuarioDAO();
+                    $usuarioExistente = $usuarioDAO->find_id($_POST['id_usuario']);
+                    $usuario->setContrasena($usuarioExistente->getContrasena());
+                }
+                $usuarioDAO = new UsuarioDAO();
+                $resultado = $usuarioDAO->update($usuario);
+
+                if ($resultado) {
+                    /* pendiente a implementar sistema de mensajes */
+                    $this->render(); // vuelve al listado actualizado
+                } else {
+                    /* pendiente a mejorar sistema de errores */
+                    $controller = new Errores();
+                }
+
+            } else {
+                /* pendiente a mejorar sistema de errores */
+                $controller = new Errores();
+            }
         }
 
         function find(){ 
