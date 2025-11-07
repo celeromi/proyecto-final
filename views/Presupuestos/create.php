@@ -16,20 +16,13 @@
 
     <main class="p-4 flex-grow-1">
     <div class="d-flex justify-content-between align-items-center mb-4">
-      <h1 class="text-success mb-0">Estructura Genérica</h1>
+      <h1 class="text-primary mb-0">Estructura Genérica</h1>
       <!--  -->
-      <a href="<?php echo constant('URL');?>main" class="btn btn-secondary">
-        <i class="bi bi-arrow-left"></i> Volver
-      </a>
+
+      <!-- CONTENIDO -->
+      
       <!--  -->
     </div>
-
-    <!--  -->
-    <!-- Contenido -->
-    <!--  -->
-    
-    </main>
-  </div>
 
   <script src="<?php echo constant('URL');?>public/js/bootstrap.bundle.min.js"></script>
   <script>
