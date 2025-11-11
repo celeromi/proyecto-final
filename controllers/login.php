@@ -1,5 +1,7 @@
 <?php
 
+include('libs/hash.php');
+
 class Login extends Controller {
 
     function __construct() {
@@ -37,7 +39,8 @@ class Login extends Controller {
             
             /*  */$user = $usuarioDAO->find_user($usuario);
 
-            if ($user && $user->getContrasena() === $contrasena) {
+            /* if ($user && $user->getContrasena() === $contrasena) { */
+            if ($user && Hash::verify($contrasena, $user->getContrasena())) {
                 // Inicio de sesión normal
                 $session->set('user', [
                     'id' => $user->getIdUsuario(),
