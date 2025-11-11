@@ -23,6 +23,8 @@
       
       <!--  -->
     </div>
+    </main>
+  </div>
 
   <script src="<?php echo constant('URL');?>public/js/bootstrap.bundle.min.js"></script>
   <script>

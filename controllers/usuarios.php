@@ -10,7 +10,7 @@
             parent::__construct();
         }
 
-        function render(){
+        function render(){ 
             $usuarioDAO = new UsuarioDAO();
             $usuarios = $usuarioDAO->read(0);
             $this->view->usuarios = $usuarios;
@@ -21,7 +21,6 @@
             $this->view->render('usuarios/create');
         }
 
-        /* pendiente a implmentar sistema de validación de datos */
         function insert() {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 

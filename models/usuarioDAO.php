@@ -136,6 +136,34 @@ class UsuarioDAO extends Model {
         }
     }
 
+    public function find_user($user) {
+        try {
+            $query = $this->db->connect()->prepare("SELECT * FROM usuarios WHERE usuario = :usuario AND archivado = 0 LIMIT 1");
+            $query->execute(['usuario' => $user]);
+            $row = $query->fetch(PDO::FETCH_ASSOC);
+
+            if ($row) {
+                $usuario = new Usuario();
+                $usuario->setIdUsuario($row['id_usuario']);
+                $usuario->setDni($row['dni']);
+                $usuario->setCuil($row['cuil']);
+                $usuario->setCorreo($row['correo']);
+                $usuario->setNombre($row['nombre']);
+                $usuario->setApellido($row['apellido']);
+                $usuario->setContacto($row['contacto']);
+                $usuario->setDireccion($row['direccion']);
+                $usuario->setUsuario($row['usuario']);
+                $usuario->setContrasena($row['contrasena']);
+                $usuario->setArchivado($row['archivado']);
+                return $usuario;
+            } else {
+                return null;
+            }
+        } catch (PDOException $e) {
+            return null;
+        }
+    }
+
     public function update(Usuario $usuario) {
         try {
             /* todo menos archivado */
