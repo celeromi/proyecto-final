@@ -59,10 +59,4 @@ class Login extends Controller {
         }
     }
 
-    function logout() {
-        include_once 'libs/session.php';
-        $session = new Session();
-        $session->close();
-        header('Location: ' . constant('URL') . 'login');
-    }
 }

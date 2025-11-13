@@ -3,7 +3,6 @@
    class Main extends Controller{
 
         function __construct(){
-            //echo '<p>Controllador Main</p>';
             parent::__construct();
         }
 

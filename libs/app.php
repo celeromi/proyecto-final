@@ -3,24 +3,19 @@
 class App {
 
     function __construct() {
-        // Inicio de sesión
+
         include_once 'libs/session.php';
         $session = new Session();
 
-        // Captura de URL
         $url = isset($_GET['url']) ? $_GET['url'] : null;
         $url = rtrim($url, '/');
         $url = explode('/', $url);
 
-        /* ==============================================================
-           CONTROL DE SESIÓN GLOBAL
-           ============================================================== */
-        $controladoresPublicos = ['login', 'register', 'errores']; 
-        // Podés agregar acá todos los controladores que no requieren sesión
+        /*  */
+        $controladoresPublicos = ['login', 'ayuda']; 
 
+        /*  */
         $controladorActual = isset($url[0]) && $url[0] != '' ? $url[0] : 'main';
-
-        // Si el controlador no está en los públicos y no hay sesión → redirige al login
         if (!in_array($controladorActual, $controladoresPublicos)) {
             if (!$session->exists('user')) {
                 header('Location: ' . constant('URL') . 'login');
@@ -28,9 +23,6 @@ class App {
             }
         }
 
-        /* ==============================================================
-           CARGA DEL CONTROLADOR Y ACCIONES
-           ============================================================== */
         if (empty($url[0])) {
             $archivoController = 'controllers/main.php';
             require_once $archivoController;

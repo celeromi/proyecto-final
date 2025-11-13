@@ -7,6 +7,6 @@ class Logout extends Controller {
         include_once 'libs/session.php';
         $session = new Session();
         $session->close();
-        header('Location: ' . constant('URL') . 'login');
+        header('Location: '.constant('URL').'login');
     }
 }
