@@ -49,7 +49,7 @@
       <!-- Enlaces inferiores -->
       <div class="text-center mt-3">
         <a href="#" class="text-decoration-none small text-secondary">
-          <i class="bi bi-question-circle"></i> ¿Olvidaste tu contraseña?
+          <i class="bi bi-question-circle"></i> ¿Olvidaste tu contraseña? <br> Provsional → admin / admin
         </a>
       </div>
 
