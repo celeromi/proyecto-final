@@ -10,9 +10,12 @@
     body {
       padding-top: 60px;
     }
+    .bg-red-500 {
+      background-color: #ef4444 !important;
+    }
   </style>
 <body>
-<nav class="navbar bg-body-tertiary fixed-top">
+<nav class="navbar navbar-dark bg-red-500 fixed-top">
   <div class="container-fluid">
     <a class="btn" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
@@ -20,7 +23,7 @@
 </svg>
 </a>
 <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-  <div class="offcanvas-header">
+  <div class="offcanvas-header bg-red-500">
     <h5 class="offcanvas-title" id="offcanvasExampleLabel">Menu</h5>
     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
@@ -33,7 +36,7 @@
     <a class="nav-link" href="#">Gestor de usuarios</a> <!--dependiendo de si es admin o vendedor-->
   </div>
 </div>
-    <button type="button" class="btn btn-info">Usuario</button>
+    <button type="button" class="btn btn-light">Usuario</button>
   </div>
 </nav>
 </body>
