@@ -23,8 +23,8 @@ class Usuarios extends Controller{
         $this->view->render('usuarios/create');
     }
 
-    function insert() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    function insert(){
+        if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
             /* Implmentar validación de datos */
 
@@ -34,7 +34,7 @@ class Usuarios extends Controller{
             $usuarioDAO = new UsuarioDAO();
             $resultado = $usuarioDAO->create($usuario);
 
-            if ($resultado) {
+            if ($resultado){
                 $this->render();
             } else {
                 $controller = new Errores();
@@ -44,14 +44,14 @@ class Usuarios extends Controller{
         }
     }
 
-    function show($param = null) {
-        if (isset($param) && is_array($param) && count($param) > 0) {
+    function show($param = null){
+        if (isset($param) && is_array($param) && count($param) > 0){
             $id = $param[0];
 
             $usuarioDAO = new UsuarioDAO();
             $usuario = $usuarioDAO->find_id($id);
 
-            if ($usuario) {
+            if ($usuario){
                 $this->view->usuario = $usuario;
                 $this->view->render('usuarios/show');
             } else {
@@ -63,13 +63,13 @@ class Usuarios extends Controller{
     }
 
     function edit($param = null){
-        if (isset($param) && is_array($param) && count($param) > 0) {
+        if (isset($param) && is_array($param) && count($param) > 0){
             $id = $param[0];
 
             $usuarioDAO = new UsuarioDAO();
             $usuario = $usuarioDAO->find_id($id);
 
-            if ($usuario) {
+            if ($usuario){
                 $this->view->usuario = $usuario;
                 $this->view->render('usuarios/edit');
             } else {
@@ -80,8 +80,8 @@ class Usuarios extends Controller{
         }
     }
 
-    function update() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    function update(){
+        if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
             /* Implementar metodo de control de datos */
 
@@ -91,7 +91,7 @@ class Usuarios extends Controller{
             $usuarioDAO = new UsuarioDAO();
             $resultado = $usuarioDAO->update($usuario);
 
-            if ($resultado) {
+            if ($resultado){
                 $this->render();
             } else {
                 $controller = new Errores();
@@ -102,22 +102,24 @@ class Usuarios extends Controller{
         }
     }
 
+    /* P
+    0.endiente a implmentar */
     function find(){ 
-        /* Metodo para busqueda - pendiente a implmentar */
+        $controller = new Errores();
     }
 
-    function hide($param = null) {
-        if (isset($param) && is_array($param) && count($param) > 0) {
+    function hide($param = null){
+        if (isset($param) && is_array($param) && count($param) > 0){
             $id = $param[0];
             
             $usuarioDAO = new UsuarioDAO();
 
             $usuario = $usuarioDAO->find_id($id);
 
-            if ($usuario) {
+            if ($usuario){
                 $resultado = $usuarioDAO->hide($usuario->getIdUsuario());
 
-                if ($resultado) {
+                if ($resultado){
                     $usuarios = $usuarioDAO->read(0);
                     $this->view->usuarios = $usuarios;
                     $this->view->render('usuarios/index');
@@ -132,17 +134,17 @@ class Usuarios extends Controller{
         }
     }
 
-    function delete($param = null) {
-        if (isset($param) && is_array($param) && count($param) > 0) {
+    function delete($param = null){
+        if (isset($param) && is_array($param) && count($param) > 0){
             $id = $param[0];
 
             $usuarioDAO = new UsuarioDAO();
             $usuario = $usuarioDAO->find_id($id);
 
-            if ($usuario) {
+            if ($usuario){
                 $resultado = $usuarioDAO->delete($usuario->getIdUsuario());
 
-                if ($resultado) {
+                if ($resultado){
                     $usuarios = $usuarioDAO->read(0);
                     $this->view->usuarios = $usuarios;
                     $this->view->render('usuarios/index');
@@ -159,7 +161,7 @@ class Usuarios extends Controller{
 
     private function data_mapping($usuario, $post){
 
-        if (isset($post['id_usuario'])) {
+        if (isset($post['id_usuario'])){
             $usuario->setIdUsuario($post['id_usuario']);
         }
 
@@ -172,9 +174,9 @@ class Usuarios extends Controller{
         $usuario->setDireccion($post['direccion']);
         $usuario->setUsuario($post['usuario']);
 
-        if (!empty($post['contrasena'])) {
+        if (!empty($post['contrasena'])){
             $usuario->setContrasena(Hash::create($post['contrasena']));
-        } else if (isset($post['id_usuario'])) {
+        } else if (isset($post['id_usuario'])){
             $usuarioDAO = new UsuarioDAO();
             $usuarioExistente = $usuarioDAO->find_id($post['id_usuario']);
             $usuario->setContrasena($usuarioExistente->getContrasena());
@@ -183,7 +185,7 @@ class Usuarios extends Controller{
         return $usuario;
     }
 
-    /* verificar logica e implmentar e terminar de implmentar */
+    /* verificar logica y terminar de implmentar */
     function data_validator($errors = []){
 
         if (!Validator::dni($_POST['dni'])) $errors[] = "El DNI debe tener 8 números.";
@@ -196,7 +198,7 @@ class Usuarios extends Controller{
         if (!Validator::username($_POST['usuario'])) $errors[] = "El usuario debe ser alfanumérico y sin espacios.";
         if (!Validator::password($_POST['contrasena'])) $errors[] = "La contraseña debe tener 8+ caracteres, una letra, un número y un símbolo.";
 
-        if (!empty($errors)) {
+        if (!empty($errors)){
             $this->view->errores = $errors;
             $this->view->render('usuarios/create');
             return false;

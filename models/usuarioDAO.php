@@ -4,13 +4,13 @@ include_once 'models/usuario.php';
 
 class UsuarioDAO extends Model {
 
-    public function __construct() {
+    public function __construct(){
         parent::__construct();
     }
 
     
     /* controlar el default de archivado es 0 */
-    public function create(Usuario $usuario) {
+    public function create(Usuario $usuario){
         try {
             $query = $this->db->connect()->prepare(" INSERT INTO usuarios 
                 (dni, cuil, correo, nombre, apellido, contacto, direccion, usuario, contrasena, archivado)
@@ -30,14 +30,14 @@ class UsuarioDAO extends Model {
             ]);
 
             return true;
-        } catch (PDOException $e) {
+        } catch (PDOException $e){
             /* pendiente a mejorar mensaje de error */
             return false;
         }
     }
 
     /* a futuro podría modificarse para darle un atributo // → 0 = visibles // → 1 = ocultos // → 2 = todos // */
-    public function read($option) {
+    public function read($option){
         $items = [];
         try {
 
@@ -48,7 +48,7 @@ class UsuarioDAO extends Model {
                 $query = $this->db->connect()->query("SELECT * FROM usuarios");
             }
 
-            while ($row = $query->fetch()) {
+            while ($row = $query->fetch()){
                 $item = new Usuario();
                 $item->setIdUsuario($row['id_usuario']);
                 $item->setDni($row['dni']);
@@ -66,19 +66,19 @@ class UsuarioDAO extends Model {
             }
             return $items;
 
-        } catch (PDOException $e) {
+        } catch (PDOException $e){
             /* pendiente a mejorar mensaje de error */
             return [];
         }
     }
 
-    public function find_id($id) {
+    public function find_id($id){
         try {
             $query = $this->db->connect()->prepare("SELECT * FROM usuarios WHERE id_usuario = :id LIMIT 1");
             $query->execute(['id' => $id]);
             $row = $query->fetch(PDO::FETCH_ASSOC);
 
-            if ($row) {
+            if ($row){
                 $usuario = new Usuario();
                 $usuario->setIdUsuario($row['id_usuario']);
                 $usuario->setDni($row['dni']);
@@ -95,17 +95,17 @@ class UsuarioDAO extends Model {
             } else {
                 return null;
             }
-        } catch (PDOException $e) {
+        } catch (PDOException $e){
             return null;
         }
     }
 
     /* peniente a testear */
-    public function find_dni($dni, $incluirArchivado = true) {
+    public function find_dni($dni, $incluirArchivado = true){
         try {
             // si no queremos incluir archivados, filtramos
             $sql = "SELECT * FROM usuarios WHERE dni = :dni";
-            if (!$incluirArchivado) {
+            if (!$incluirArchivado){
                 $sql .= " AND archivado = 0";
             }
             $sql .= " LIMIT 1";
@@ -114,7 +114,7 @@ class UsuarioDAO extends Model {
             $query->execute(['dni' => $dni]);
             $row = $query->fetch(PDO::FETCH_ASSOC);
 
-            if ($row) {
+            if ($row){
                 $usuario = new Usuario();
                 $usuario->setIdUsuario($row['id_usuario']);
                 $usuario->setDni($row['dni']);
@@ -131,18 +131,18 @@ class UsuarioDAO extends Model {
             } else {
                 return null;
             }
-        } catch (PDOException $e) {
+        } catch (PDOException $e){
             return null;
         }
     }
 
-    public function find_user($user) {
+    public function find_user($user){
         try {
             $query = $this->db->connect()->prepare("SELECT * FROM usuarios WHERE usuario = :usuario AND archivado = 0 LIMIT 1");
             $query->execute(['usuario' => $user]);
             $row = $query->fetch(PDO::FETCH_ASSOC);
 
-            if ($row) {
+            if ($row){
                 $usuario = new Usuario();
                 $usuario->setIdUsuario($row['id_usuario']);
                 $usuario->setDni($row['dni']);
@@ -159,12 +159,12 @@ class UsuarioDAO extends Model {
             } else {
                 return null;
             }
-        } catch (PDOException $e) {
+        } catch (PDOException $e){
             return null;
         }
     }
 
-    public function update(Usuario $usuario) {
+    public function update(Usuario $usuario){
         try {
             /* todo menos archivado */
             $query = $this->db->connect()->prepare("
@@ -194,33 +194,33 @@ class UsuarioDAO extends Model {
             ]);
 
             return true;
-        } catch (PDOException $e) {
+        } catch (PDOException $e){
             /* pendiente a mejorar mensaje de error */
             return false;
         }
     }
 
-    public function hide($id_usuario) {
+    public function hide($id_usuario){
         try {
             $query = $this->db->connect()->prepare("
                 UPDATE usuarios SET archivado = 1 WHERE id_usuario = :id_usuario
             ");
             $query->execute(['id_usuario' => $id_usuario]);
             return true;
-        } catch (PDOException $e) {
+        } catch (PDOException $e){
             /* pendiente a mejorar mensaje de error */
             return false;
         }
     }
 
-    public function delete($id_usuario) {
+    public function delete($id_usuario){
         try {
             $query = $this->db->connect()->prepare("
                 DELETE FROM usuarios WHERE id_usuario = :id_usuario
             ");
             $query->execute(['id_usuario' => $id_usuario]);
             return true;
-        } catch (PDOException $e) {
+        } catch (PDOException $e){
             /* pendiente a mejorar mensaje de error */
             return false;
         }

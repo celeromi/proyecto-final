@@ -347,7 +347,7 @@
   fill: currentcolor;
   transition: 0.2s ease-in-out transform;
 }
-@media (prefers-reduced-motion: reduce) {
+@media (prefers-reduced-motion: reduce){
   .icon-link > .bi {
     transition: none;
   }
@@ -420,7 +420,7 @@
   z-index: 1020;
 }
 
-@media (min-width: 576px) {
+@media (min-width: 576px){
   .sticky-sm-top {
     position: -webkit-sticky;
     position: sticky;
@@ -434,7 +434,7 @@
     z-index: 1020;
   }
 }
-@media (min-width: 768px) {
+@media (min-width: 768px){
   .sticky-md-top {
     position: -webkit-sticky;
     position: sticky;
@@ -448,7 +448,7 @@
     z-index: 1020;
   }
 }
-@media (min-width: 992px) {
+@media (min-width: 992px){
   .sticky-lg-top {
     position: -webkit-sticky;
     position: sticky;
@@ -462,7 +462,7 @@
     z-index: 1020;
   }
 }
-@media (min-width: 1200px) {
+@media (min-width: 1200px){
   .sticky-xl-top {
     position: -webkit-sticky;
     position: sticky;
@@ -476,7 +476,7 @@
     z-index: 1020;
   }
 }
-@media (min-width: 1400px) {
+@media (min-width: 1400px){
   .sticky-xxl-top {
     position: -webkit-sticky;
     position: sticky;
@@ -505,7 +505,7 @@
 }
 
 .visually-hidden,
-.visually-hidden-focusable:not(:focus):not(:focus-within) {
+.visually-hidden-focusable:not(:focus):not(:focus-within){
   width: 1px !important;
   height: 1px !important;
   padding: 0 !important;
@@ -516,7 +516,7 @@
   border: 0 !important;
 }
 .visually-hidden:not(caption),
-.visually-hidden-focusable:not(:focus):not(:focus-within):not(caption) {
+.visually-hidden-focusable:not(:focus):not(:focus-within):not(caption){
   position: absolute !important;
 }
 .visually-hidden *,
@@ -2548,7 +2548,7 @@
   z-index: 3 !important;
 }
 
-@media (min-width: 576px) {
+@media (min-width: 576px){
   .float-sm-start {
     float: left !important;
   }
@@ -3109,7 +3109,7 @@
     text-align: center !important;
   }
 }
-@media (min-width: 768px) {
+@media (min-width: 768px){
   .float-md-start {
     float: left !important;
   }
@@ -3670,7 +3670,7 @@
     text-align: center !important;
   }
 }
-@media (min-width: 992px) {
+@media (min-width: 992px){
   .float-lg-start {
     float: left !important;
   }
@@ -4231,7 +4231,7 @@
     text-align: center !important;
   }
 }
-@media (min-width: 1200px) {
+@media (min-width: 1200px){
   .float-xl-start {
     float: left !important;
   }
@@ -4792,7 +4792,7 @@
     text-align: center !important;
   }
 }
-@media (min-width: 1400px) {
+@media (min-width: 1400px){
   .float-xxl-start {
     float: left !important;
   }
@@ -5353,7 +5353,7 @@
     text-align: center !important;
   }
 }
-@media (min-width: 1200px) {
+@media (min-width: 1200px){
   .fs-1 {
     font-size: 2.5rem !important;
   }

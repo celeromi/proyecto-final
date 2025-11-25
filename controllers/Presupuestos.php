@@ -14,11 +14,11 @@
             /*  */
         }
 
-        function insert() {
+        function insert(){
             /*  */
         }
 
-        function show() {
+        function show(){
             /*  */
         }
 
@@ -26,7 +26,7 @@
             /*  */
         }
 
-        function update() {
+        function update(){
             /*  */
         }
 
@@ -34,11 +34,11 @@
             /*  */
         }
 
-        function hide() {
+        function hide(){
             /*  */
         }
 
-        function delete() {
+        function delete(){
             /*  */
         }
 

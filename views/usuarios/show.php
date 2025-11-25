@@ -25,7 +25,7 @@
 
       <div class="d-flex justify-content-center">
         <div class="card shadow-sm p-4 rounded-4" style="max-width: 600px; width: 100%;">
-          <?php if (isset($this->usuario)) { $u = $this->usuario; ?>
+          <?php if (isset($this->usuario)){ $u = $this->usuario; ?>
             <form autocomplete="off">
               <div class="row mb-3">
                 <div class="col-md-6">

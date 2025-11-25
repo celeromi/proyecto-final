@@ -186,7 +186,7 @@
   box-sizing: border-box;
 }
 
-@media (prefers-reduced-motion: no-preference) {
+@media (prefers-reduced-motion: no-preference){
   :root {
     scroll-behavior: smooth;
   }
@@ -224,7 +224,7 @@ h6, h5, h4, h3, h2, h1 {
 h1 {
   font-size: calc(1.375rem + 1.5vw);
 }
-@media (min-width: 1200px) {
+@media (min-width: 1200px){
   h1 {
     font-size: 2.5rem;
   }
@@ -233,7 +233,7 @@ h1 {
 h2 {
   font-size: calc(1.325rem + 0.9vw);
 }
-@media (min-width: 1200px) {
+@media (min-width: 1200px){
   h2 {
     font-size: 2rem;
   }
@@ -242,7 +242,7 @@ h2 {
 h3 {
   font-size: calc(1.3rem + 0.6vw);
 }
-@media (min-width: 1200px) {
+@media (min-width: 1200px){
   h3 {
     font-size: 1.75rem;
   }
@@ -251,7 +251,7 @@ h3 {
 h4 {
   font-size: calc(1.275rem + 0.3vw);
 }
-@media (min-width: 1200px) {
+@media (min-width: 1200px){
   h4 {
     font-size: 1.5rem;
   }
@@ -447,7 +447,7 @@ button {
   border-radius: 0;
 }
 
-button:focus:not(:focus-visible) {
+button:focus:not(:focus-visible){
   outline: 0;
 }
 
@@ -491,7 +491,7 @@ button,
 button:not(:disabled),
 [type=button]:not(:disabled),
 [type=reset]:not(:disabled),
-[type=submit]:not(:disabled) {
+[type=submit]:not(:disabled){
   cursor: pointer;
 }
 
@@ -519,7 +519,7 @@ legend {
   line-height: inherit;
   font-size: calc(1.275rem + 0.3vw);
 }
-@media (min-width: 1200px) {
+@media (min-width: 1200px){
   legend {
     font-size: 1.5rem;
   }
