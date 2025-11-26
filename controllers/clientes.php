@@ -6,7 +6,7 @@ include('models/cliente.php');
 include('models/clienteDAO.php');
 include('controllers/errores.php');
 
-class clientes extends Controller{
+class Clientes extends Controller{
 
     function __construct(){
         parent::__construct();
@@ -162,21 +162,13 @@ class clientes extends Controller{
             $cliente->setIdCliente($post['id_cliente']);
         }
         $cliente->setDni($post['dni']);
-        $cliente->setCuil($post['cuit']);
+        $cliente->setCuit($post['cuit']);
         $cliente->setCorreo($post['correo']);
         $cliente->setNombre($post['nombre']);
         $cliente->setApellido($post['apellido']);
         $cliente->setContacto($post['contacto']);
         $cliente->setDireccion($post['direccion']);
         $cliente->setRazonSocial($post['razon_social']);
-
-        /* if (!empty($post['contrasena'])){
-            $cliente->setContrasena(Hash::create($post['contrasena']));
-        } else if (isset($post['id_cliente'])){
-            $clienteDAO = new ClienteDAO();
-            $clienteExistente = $clienteDAO->find_id($post['id_cliente']);
-            $cliente->setContrasena($clienteExistente->getContrasena());
-        } */
 
         return $cliente;
     }
