@@ -28,11 +28,11 @@
             <thead class="table-warning">
               <tr>
                 <th scope="col">#</th>
-                <th scope="col">Código</th>
                 <th scope="col">Nombre</th>
                 <th scope="col">Categoría</th>
-                <th scope="col">Precio</th>
-                <th scope="col">Stock</th>
+                <th scope="col">Descripción</th>
+                <th scope="col">Precio U.</th>
+                <th scope="col">Precio Mayor.</th>
                 <th scope="col" class="text-center">Acciones</th>
               </tr>
             </thead>
@@ -41,33 +41,46 @@
               <?php foreach ($this->productos as $index => $producto) : ?>
                 <tr>
                   <th scope="row"><?php echo $index + 1; ?></th>
-                  <td><?php echo htmlspecialchars($producto->getCodigo()); ?></td>
+
                   <td><?php echo htmlspecialchars($producto->getNombre()); ?></td>
                   <td><?php echo htmlspecialchars($producto->getCategoria()); ?></td>
-                  <td>$<?php echo number_format($producto->getPrecio(), 2, ',', '.'); ?></td>
-                  <td><?php echo htmlspecialchars($producto->getStock()); ?></td>
+
+                  <td>
+                    <?php
+                      $desc = trim($producto->getDescripcion());
+                      if ($desc === '' || $desc === null) {
+                        echo '<span class="text-muted">—</span>';
+                      } else {
+                        // truncar a 80 caracteres mostrando ... si es necesario
+                        echo htmlspecialchars(mb_strlen($desc) > 80 ? mb_substr($desc, 0, 80) . '…' : $desc);
+                      }
+                    ?>
+                  </td>
+
+                  <td>$<?php echo number_format($producto->getPrecioUnitario(), 2, ',', '.'); ?></td>
+                  <td>$<?php echo number_format($producto->getPrecioMayorista(), 2, ',', '.'); ?></td>
 
                   <td class="text-center">
                     <div class="btn-group" role="group">
 
-                      <a href="<?php echo constant('URL');?>productos/show/<?php echo $producto->getIdProducto(); ?>" 
+                      <a href="<?php echo constant('URL');?>productos/show/<?php echo $producto->getIdProducto(); ?>"
                          class="btn btn-outline-primary btn-sm" data-bs-toggle="tooltip" title="Ver">
                         <i class="bi bi-eye"></i>
                       </a>
 
-                      <a href="<?php echo constant('URL');?>productos/edit/<?php echo $producto->getIdProducto(); ?>" 
+                      <a href="<?php echo constant('URL');?>productos/edit/<?php echo $producto->getIdProducto(); ?>"
                          class="btn btn-outline-warning btn-sm" data-bs-toggle="tooltip" title="Editar">
                         <i class="bi bi-pencil-square"></i>
                       </a>
 
-                      <a href="<?php echo constant('URL');?>productos/hide/<?php echo $producto->getIdProducto(); ?>" 
+                      <a href="<?php echo constant('URL');?>productos/hide/<?php echo $producto->getIdProducto(); ?>"
                          class="btn btn-outline-danger btn-sm" data-bs-toggle="tooltip" title="Archivar"
                          onclick="return confirm('¿Seguro que deseas archivar este producto?');">
                         <i class="bi bi-eye-slash"></i>
                       </a>
 
-                      <a href="<?php echo constant('URL');?>productos/delete/<?php echo $producto->getIdProducto(); ?>" 
-                         class="btn btn-outline-danger btn-sm" data-bs-toggle="tooltip" title="Eliminar" 
+                      <a href="<?php echo constant('URL');?>productos/delete/<?php echo $producto->getIdProducto(); ?>"
+                         class="btn btn-outline-danger btn-sm" data-bs-toggle="tooltip" title="Eliminar"
                          onclick="return confirm('¿Seguro que deseas eliminar este producto?');">
                         <i class="bi bi-trash"></i>
                       </a>

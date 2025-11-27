@@ -48,7 +48,7 @@
                   <input 
                     type="text" 
                     name="cuit" 
-                    value="<?php echo htmlspecialchars($c->getCuit()); ?>" 
+                    value="<?php echo htmlspecialchars($c->getCuit ()); ?>" 
                     class="form-control" 
                     required>
                 </div>
