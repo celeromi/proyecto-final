@@ -9,15 +9,12 @@
 </head>
 <body>
     <div id="header-container"></div>
-<!--Tipo de factura-->
-<!--Datos del cliente-->
-<!--Carrito-->
-<!--Forma de pago-->
+
     <div class="container mt-4">
         <h1 class="text-center mb-4">Presupuesto Final</h1>
 
         <div class="card bg-light text-dark p-4 mb-4 custom-card-shadow" id="cardCliente">
-            
+<!--Tipo de factura-->            
             <div class="row mb-3">
                 <div class="col-md-4">
                     <label for="selectTipoFactura" class="form-label">Tipo de Factura:</label>
@@ -36,7 +33,7 @@
                     <input type="date" class="form-control" id="inputFechaFinalizacion" value="2025-04-18">
                 </div>
             </div>
-
+<!--Datos del cliente-->
             <div class="row align-items-end mb-3">
                 <div class="col-md-10">
                     <label for="inputBuscarCliente" class="form-label">Buscar Cliente:</label>
@@ -69,7 +66,7 @@
                 </div>
             </div>
         </div>
-
+<!--Carrito-->
         <div class="card bg-light p-4 custom-card-shadow">
             <h2 class="text-center mb-4">Productos Agregados al Presupuesto</h2>
             
@@ -95,7 +92,8 @@
 
         </div>
         </div>
-
+<!--Forma de pago-->
+<!--imprimible del presupuesto final-->
 
   <script>
     fetch('layouts/header.html')
