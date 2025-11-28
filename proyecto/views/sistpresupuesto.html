@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+    <title>Nuevo presupuesto</title>
+</head>
+<body>
+    <div id="header-container"></div>
+<!--producto-->
+    <div class="container mt-4">
+        <h1 class="text-center mb-4">Nuevo Presupuesto</h1>
+        <div class="row g-4">
+            
+            <div class="col-md-6">
+                <div class="card bg-light p-3 custom-card-shadow">
+                    <h2 class="card-title text-center mb-4">Buscar y Agregar Productos</h2>
+                    
+                    <div class="mb-3">
+                        <label for="inputBuscarProducto" class="form-label">Buscar Producto:</label>
+                        <input type="text" class="form-control" id="inputBuscarProducto" value="">
+                        <button class="btn btn-success w-100 mt-2" id="btnBuscar">Buscar</button>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-striped mt-4">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Producto</th>
+                                    <th>Precio</th>
+                                    <th>Cantidad</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaResultados">
+                                <tr data-producto='{"id": 1, "nombre": "Gomitas de cabello x100", "precio": 1500}'>
+                                    <td><input class="form-check-input" type="radio" name="productoSeleccionado" value=""></td>
+                                    <td>Gomitas</td>
+                                    <td>100</td>
+                                    <td><input type="number" class="form-control form-control-sm" value="" min="1" data-id="1"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <button class="btn btn-primary w-100" id="btnAnadir">Añadir</button>
+                </div>
+            </div>
+<!--Carrito-->
+            <div class="col-md-6">
+                <div class="card bg-light p-3 custom-card-shadow">
+                    <h2 class="card-title text-center mb-4">Presupuesto Actual</h2>
+                    
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Producto</th>
+                                    <th>Cantidad</th>
+                                    <th>Precio</th>
+                                    <th>Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaPresupuesto">
+                                <tr data-id="3" data-precio="3200.5">
+                                    <td><input class="form-check-input" type="radio" name="productoEnPresupuesto" value="3"></td>
+                                    <td>Churrasco</td>
+                                    <td class="cantidad-item">2</td>
+                                    <td class="precio-item">3200.5</td>
+                                    <td class="subtotal-item">6401</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <button class="btn btn-danger w-25 mb-3" id="btnBorrar">Borrar</button>
+
+                    <h4 class="text-end">Total: <span id="totalPresupuesto">6401</span></h4>
+                    
+                    <button class="btn btn-success w-100 mt-2" id="btnFinalizar">Finalizar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!--modal con imprimir o continuar-->
+    <!--imprimible del presupuesto-->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+      <script>
+    fetch('layouts/header.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('header-container').innerHTML = data;
+      });
+  </script>
+
+</body>
+</html>
