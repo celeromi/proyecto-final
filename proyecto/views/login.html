@@ -10,27 +10,65 @@
 </head>
 <body> <!--mejoras de color-->
 
-  <div class="d-flex justify-content-center align-items-center min-vh-100">
+<div class="d-flex justify-content-center align-items-center min-vh-100">
   <div class="card" style="width: 18rem;">
-  <img src="../assets/img/images.png" class="card-img-top" alt="Logo de Baer">
-  <div class="card-body">
-<form>
-  <div class="mb-3">
-    <label for="exampleInputEmail1" class="form-label">Email</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+  <img src="../assets/img/images2.png" class="card-img-top" alt="Logo de Baer">
+    <div class="card-body">
+      <form>
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Email</label>
+          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label">Contraseña</label>
+          <input type="password" class="form-control" id="exampleInputPassword1">
+        </div>
+        <div class="text-start mb-3"><!--modal recuperacion de contraseña-->
+          <a href="#" class="text-decoration-none text-secondary" data-bs-toggle="modal" data-bs-target="#recoverModal" style="font-size: 0.9rem;">¿Olvidaste tu contraseña?</a>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Iniciar sesion</button>
+      </form>
+    </div>
   </div>
-  <div class="mb-3">
-    <label for="exampleInputPassword1" class="form-label">Contraseña</label>
-    <input type="password" class="form-control" id="exampleInputPassword1">
+</div>
+<div class="modal fade" id="recoverModal" tabindex="-1" aria-labelledby="recoverModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center" id="recoverModalLabel">Recuperar Contraseña</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="recoverForm">
+                    <div class="modal-body">
+                        <p>Ingresa tu correo para recuperar tu contraseña:</p>
+                        <div class="mb-3">
+                            <label for="recoverEmail" class="form-label">Correo electrónico</label>
+                            <input type="email" class="form-control" id="recoverEmail" name="email" placeholder="ejemplo@correo.com" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Enviar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
   </div>
-  <div class="d-flex justify-left mb-3">
-    <a href="URL_DE_RECUPERACION" class="text-decoration-none" style="color: #ccc; font-size: 0.9rem;">¿Olvidaste tu contraseña?</a>
-  </div><!--modal recuperacion de contraseña-->
-  <button type="submit" class="btn btn-primary w-100">Iniciar sesion</button>
-</form>
-</div>
-</div>
-</div>
+
+  <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+              <div class="modal-body modal-body-custom">
+                  <i class="fas fa-check-circle"></i>
+                  <h5 class="modal-title mb-2">¡Correo Enviado!</h5>
+                  <p>Revisa tu bandeja de entrada para continuar con el proceso de recuperación.</p>
+                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+              </div><!--error falta-->
+           </div>
+      </div>
+  </div>
+  <!--modal error credenciales-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
     
