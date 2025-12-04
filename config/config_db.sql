@@ -64,3 +64,19 @@ ALTER TABLE clientes AUTO_INCREMENT = 1;
 DELETE FROM productos;
 ALTER TABLE productos AUTO_INCREMENT = 1;
 
+--------------------------------------------------
+
+CREATE TABLE `presupuesto` (
+  `id_presupuesto` int(11) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `id_cliente` int(11) DEFAULT NULL,
+  `id_consulta` int(11) NOT NULL,
+  `fecha` date NOT NULL,
+  `estado` varchar(50) NOT NULL,
+  `importe_final` float NOT NULL,
+  `archivado` tinyint(1) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+ALTER TABLE `presupuesto`
+  MODIFY `id_presupuesto` int(11) NOT NULL AUTO_INCREMENT;
+
