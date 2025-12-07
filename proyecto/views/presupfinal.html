@@ -92,9 +92,26 @@
                     </select>
                 </div>
             <div class="d-flex justify-content-end align-items-end mt-3">
-                <button class="btn btn-primary" id="btnfacura">Facturar</button>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalFacturar" id="btnfacura">Facturar</button>
             </div>
         </div>
+    </div>
+    <!--modal con imprimir y guardar-->
+    <div class="modal fade" id="modalFacturar" tabindex="-1" aria-labelledby="modalFacturarLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header bg-secondary text-white">
+            <h5 class="modal-title" id="modalFacturarLabel">Confirmar Facturación</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body">
+            <p><strong>[aca iria la factura]</strong></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" id="btnImprimirFactura">Imprimir y guardar</button>
+          </div>
+        </div>
+      </div>
     </div>
 
 

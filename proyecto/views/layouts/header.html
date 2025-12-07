@@ -13,32 +13,49 @@
     .bg-red-500 {
       background-color: #ef4444 !important;
     }
+    .offcanvas-body .nav-link:hover {
+        background-color: #fca5a5;
+        color: #b91c1c;
+    }
   </style>
 <body>
 <nav class="navbar navbar-dark bg-red-500 fixed-top">
   <div class="container-fluid">
-    <a class="btn" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
-  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+    <a class="btn text-white" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" class="bi bi-list" viewBox="0 0 16 16">
   <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
 </svg>
 </a>
 <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
   <div class="offcanvas-header bg-red-500">
-    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Menu</h5>
+    <h5 class="offcanvas-title text-white" id="offcanvasExampleLabel">Menu</h5>
     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
   <div class="offcanvas-body">
-    <a class="nav-link" href="inicio.html">Inicio</a>
-    <a class="nav-link" href="sistpresupuesto.html">Nuevo presupuesto</a>
-    <a class="nav-link" href="productos.html">Productos</a>
-    <a class="nav-link" href="clientes.html">Clientes</a>
-    <a class="nav-link" href="#">Traslados</a>
-    <a class="nav-link" href="#">Movimientos</a>
-    <a class="nav-link" href="#">Gestor de usuarios</a> <!--dependiendo de si es admin o vendedor-->
+    <a class="nav-link p-2" href="inicio.html">Inicio</a>
+    <a class="nav-link p-2" href="sistpresupuesto.html">Nuevo presupuesto</a>
+    <a class="nav-link p-2" href="productos.html">Productos</a>
+    <a class="nav-link p-2" href="clientes.html">Clientes</a>
+    <a class="nav-link p-2" href="#">Traslados</a>
+    <a class="nav-link p-2" href="#">Movimientos</a>
+    <a class="nav-link p-2" href="#">Gestor de usuarios</a> <!--dependiendo de si es admin o vendedor-->
   </div>
 </div>
-    <button type="button" class="btn btn-light">Usuario</button>
+
+  <div class="dropdown">
+    <button class="btn text-white dropdown-toggle " type="button" data-bs-toggle="dropdown" aria-expanded="false">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" class="bi bi-person-circle" viewBox="0 0 16 16">
+                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+            </svg>
+    </button>
+        <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="/perfil">Perfil</a></li><!--agregar nombre de usuario-->
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="/cerrar-sesion">Cerrar Sesión</a></li>
+        </ul>
   </div>
+</div>
 </nav>
 </body>
 </html>
