@@ -6,6 +6,8 @@ include('models/usuario.php');
 include('models/usuarioDAO.php');
 include('models/cliente.php');     
 include('models/clienteDAO.php');
+include('models/producto.php');     
+include('models/productoDAO.php');
 include('models/presupuesto.php');     
 include('models/presupuestoDAO.php');
 include('models/presupuestoDetalle.php');     
@@ -81,28 +83,57 @@ class Presupuestos extends Controller{
         }
     }
 
-    function show($param = null){
-        if (isset($param) && is_array($param) && count($param) > 0){
-            $id = $param[0];
+function show($param = null){
+    if (isset($param) && is_array($param) && count($param) > 0){
+        $id = $param[0];
 
-            $presupuestoDAO = new PresupuestoDAO();
-            $presupuesto = $presupuestoDAO->find_id($id);
+        $presupuestoDAO = new PresupuestoDAO();
+        $presupuesto = $presupuestoDAO->find_id($id);
 
-            $presupuesto_id = $presupuesto->getIdPresupuesto();
-            $detalleDAO = new PresupuestoDetalleDAO();
-            $detalles = $detalleDAO->find_by_presupuesto($presupuesto_id);
-
-            if ($presupuesto){
-                $this->view->detalle = $detalles;
-                $this->view->presupuesto = $presupuesto;
-                $this->view->render('presupuestos/show');
-            } else {
-                $controller = new Errores();
-            }
-        } else {
+        if (!$presupuesto){
             $controller = new Errores();
+            return;
         }
+
+        // === Detalles ===
+        $presupuesto_id = $presupuesto->getIdPresupuesto();
+        $detalleDAO = new PresupuestoDetalleDAO();
+        $detalles = $detalleDAO->find_by_presupuesto($presupuesto_id);
+
+        // === Usuario asociado ===
+        $usuarioDAO = new UsuarioDAO();
+        $usuario = $usuarioDAO->find_id($presupuesto->getIdUsuario());
+
+        // === Cliente asociado (si existe) ===
+        $cliente = null;
+        if ($presupuesto->getIdCliente() != null){
+            $clienteDAO = new ClienteDAO();
+            $cliente = $clienteDAO->find_id($presupuesto->getIdCliente());
+        }
+
+        // === Productos de cada detalle ===
+        $productoDAO = new ProductoDAO();
+        $productos = [];
+
+        foreach ($detalles as $det){
+            $prod = $productoDAO->find_id($det->getIdProducto());
+            $productos[$det->getIdDetalle()] = $prod;
+        }
+
+        // === Pasamos todo a la vista ===
+        $this->view->presupuesto = $presupuesto;
+        $this->view->usuario = $usuario;
+        $this->view->cliente = $cliente;
+        $this->view->detalles = $detalles;
+        $this->view->productos = $productos;
+
+        $this->view->render('presupuestos/show');
+        
+    } else {
+        $controller = new Errores();
     }
+}
+
 
     function edit($param = null){
         if (isset($param) && is_array($param) && count($param) > 0){

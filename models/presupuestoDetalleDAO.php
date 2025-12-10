@@ -98,7 +98,7 @@ class PresupuestoDetalleDAO extends Model {
 
             while ($row = $query->fetch()){
                 $item = new PresupuestoDetalle();
-                $item->setIdDetalle($row['id_detalle']);
+                $item->setIdDetalle($row['id_detalles_presupuesto']);
                 $item->setIdPresupuesto($row['id_presupuesto']);
                 $item->setIdProducto($row['id_producto']);
                 $item->setCantidades($row['cantidades']);
