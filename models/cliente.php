@@ -12,7 +12,7 @@ class Cliente {
     private $razon_social;
     private $archivado;
 
-    public function __construct($dni = null, $cuit = null, $correo = null, $nombre = null, $apellido = null, $contacto = null, $direccion = null, $razon_social = null, $archivado = 0) {
+    public function __construct($dni = null, $cuit = null, $correo = null, $nombre = null, $apellido = null, $contacto = null, $direccion = null, $razon_social = null, $archivado = 0){
         $this->dni          = $dni;
         $this->cuit         = $cuit;
         $this->correo       = $correo;
@@ -43,7 +43,7 @@ class Cliente {
     public function setApellido($apellido)        { $this->apellido = $apellido; }
     public function setContacto($contacto)        { $this->contacto = $contacto; }
     public function setDireccion($direccion)      { $this->direccion = $direccion; }
-    public function setRazonSocial($razon_social) { $this->razon_social = $razon_social; }
+    public function setRazonSocial($razon_social){ $this->razon_social = $razon_social; }
     public function setArchivado($archivado)      { $this->archivado = $archivado; }
 }
 ?>

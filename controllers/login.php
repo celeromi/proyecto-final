@@ -4,16 +4,16 @@ include('libs/hash.php');
 
 class Login extends Controller {
 
-    function __construct() {
+    function __construct(){
         parent::__construct();
     }
 
-    function render() {
+    function render(){
         $this->view->render('login/index');
     }
 
-    function authenticate() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    function authenticate(){
+        if ($_SERVER['REQUEST_METHOD'] === 'POST'){
             $usuario = trim($_POST['usuario']);
             $contrasena = trim($_POST['contrasena']);
 
@@ -21,7 +21,7 @@ class Login extends Controller {
             $session = new Session();
 
             /* testeo temporal  */
-            if ($usuario === 'admin' && $contrasena === 'admin') {
+            if ($usuario === 'admin' && $contrasena === 'admin'){
                 $session->set('user', [
                     'id' => 0,
                     'nombre' => 'Administrador',
@@ -39,8 +39,8 @@ class Login extends Controller {
             
             /*  */$user = $usuarioDAO->find_user($usuario);
 
-            /* if ($user && $user->getContrasena() === $contrasena) { */
-            if ($user && Hash::verify($contrasena, $user->getContrasena())) {
+            /* if ($user && $user->getContrasena() === $contrasena){ */
+            if ($user && Hash::verify($contrasena, $user->getContrasena())){
                 // Inicio de sesión normal
                 $session->set('user', [
                     'id' => $user->getIdUsuario(),

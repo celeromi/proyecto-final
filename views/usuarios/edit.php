@@ -25,7 +25,7 @@
 
       <div class="d-flex justify-content-center">
         <div class="card shadow-sm p-4 rounded-4" style="max-width: 600px; width: 100%;">
-          <?php if (isset($this->usuario)) { $u = $this->usuario; ?>
+          <?php if (isset($this->usuario)){ $u = $this->usuario; ?>
             <form action="<?php echo constant('URL');?>usuarios/update" method="POST" autocomplete="off">
 
               <input type="hidden" name="id_usuario" value="<?php echo htmlspecialchars($u->getIdUsuario()); ?>">

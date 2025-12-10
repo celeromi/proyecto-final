@@ -9,7 +9,7 @@ class Producto {
     private $precio_mayorista;
     private $archivado;
 
-    public function __construct($nombre = null, $categoria = null, $descripcion = null, $precio_unitario = null, $precio_mayorista = null, $archivado = 0) {
+    public function __construct($nombre = null, $categoria = null, $descripcion = null, $precio_unitario = null, $precio_mayorista = null, $archivado = 0){
         $this->nombre           = $nombre;
         $this->categoria        = $categoria;
         $this->descripcion      = $descripcion;

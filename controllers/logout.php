@@ -2,7 +2,7 @@
 
 class Logout extends Controller {
 
-    function __construct() {
+    function __construct(){
         parent::__construct();
         include_once 'libs/session.php';
         $session = new Session();
