@@ -5,37 +5,37 @@ class PresupuestoDetalle {
     private $id_detalle;
     private $id_presupuesto;
     private $id_producto;
-    private $cantidad;
-    private $precio_unitario;
-    private $subtotal;
+    private $cantidades;
+    private $archivado;
 
     public function __construct(
-        $id_presupuesto = null, $id_producto = null,
-        $cantidad = null, $precio_unitario = null, $subtotal = null
+        $id_detalle = null,
+        $id_presupuesto = null,
+        $id_producto = null,
+        $cantidades = null,
+        $archivado = null
     ){
+        $this->id_detalle = $id_detalle;
         $this->id_presupuesto = $id_presupuesto;
-        $this->id_producto    = $id_producto;
-        $this->cantidad       = $cantidad;
-        $this->precio_unitario= $precio_unitario;
-        $this->subtotal       = $subtotal;
+        $this->id_producto = $id_producto;
+        $this->cantidades = $cantidades;
+        $this->archivado = $archivado;
     }
 
     // GETTERS
-    public function getIdPresupuesto() { return $this->id_presupuesto; }
-    public function getFecha()         { return $this->fecha; }
-    public function getIdCliente()     { return $this->id_cliente; }
-    public function getTotal()         { return $this->total; }
-    public function getObservaciones() { return $this->observaciones; }
-    public function getArchivado()     { return $this->archivado; }
+    public function getIdDetalle()      {return $this->id_detalle;}
+    public function getIdPresupuesto()  {return $this->id_presupuesto;}
+    public function getIdProducto()     {return $this->id_producto;}
+    public function getCantidades()     {return $this->cantidades;}
+    public function getArchivado()      {return $this->archivado;}
 
     // SETTERS
-    public function setIdPresupuesto($id)   { $this->id_presupuesto = $id; }
-    public function setFecha($fecha)        { $this->fecha = $fecha; }
-    public function setIdCliente($id_cli)   { $this->id_cliente = $id_cli; }
-    public function setTotal($total)        { $this->total = $total; }
-    public function setObservaciones($obs)  { $this->observaciones = $obs; }
-    public function setArchivado($arch)     { $this->archivado = $arch; }
-}
+    public function setIdDetalle($id_detalle)           {$this->id_detalle = $id_detalle;}
+    public function setIdPresupuesto($id_presupuesto)   {$this->id_presupuesto = $id_presupuesto;}
+    public function setIdProducto($id_producto)         {$this->id_producto = $id_producto;}
+    public function setCantidades($cantidades)          {$this->cantidades = $cantidades;}
+    public function setArchivado($archivado)            {$this->archivado = $archivado;}
 
+}
 
 ?>

@@ -3,37 +3,46 @@
 class Presupuesto {
 
     private $id_presupuesto;
-    private $fecha;
+    private $id_usuario;
     private $id_cliente;
-    private $total;
-    private $observaciones;
+    private $fecha;
+    private $estado;
+    private $importe_final;
     private $archivado;
 
     public function __construct(
-        $fecha = null, $id_cliente = null, $total = 0, $observaciones = null, $archivado = 0
+        $id_usuario = null,
+        $id_cliente = null,
+        $fecha = null,
+        $estado = null,
+        $importe_final = null,
+        $archivado = 0
     ){
-        $this->fecha         = $fecha;
-        $this->id_cliente    = $id_cliente;
-        $this->total         = $total;
-        $this->observaciones = $observaciones;
-        $this->archivado     = $archivado;
+        $this->id_usuario     = $id_usuario;
+        $this->id_cliente     = $id_cliente;
+        $this->fecha          = $fecha;
+        $this->estado         = $estado;
+        $this->importe_final  = $importe_final;
+        $this->archivado      = $archivado;
     }
 
     // GETTERS
-    public function getIdPresupuesto() { return $this->id_presupuesto; }
-    public function getFecha()         { return $this->fecha; }
-    public function getIdCliente()     { return $this->id_cliente; }
-    public function getTotal()         { return $this->total; }
-    public function getObservaciones() { return $this->observaciones; }
-    public function getArchivado()     { return $this->archivado; }
+    public function getIdPresupuesto()   { return $this->id_presupuesto; }
+    public function getIdUsuario()       { return $this->id_usuario; }
+    public function getIdCliente()       { return $this->id_cliente; }
+    public function getFecha()           { return $this->fecha; }
+    public function getEstado()          { return $this->estado; }
+    public function getImporteFinal()    { return $this->importe_final; }
+    public function getArchivado()       { return $this->archivado; }
 
     // SETTERS
-    public function setIdPresupuesto($id)   { $this->id_presupuesto = $id; }
-    public function setFecha($fecha)        { $this->fecha = $fecha; }
-    public function setIdCliente($id_cli)   { $this->id_cliente = $id_cli; }
-    public function setTotal($total)        { $this->total = $total; }
-    public function setObservaciones($obs)  { $this->observaciones = $obs; }
-    public function setArchivado($arch)     { $this->archivado = $arch; }
+    public function setIdPresupuesto($id)      { $this->id_presupuesto = $id; }
+    public function setIdUsuario($id_usuario)  { $this->id_usuario = $id_usuario; }
+    public function setIdCliente($id_cliente)  { $this->id_cliente = $id_cliente; }
+    public function setFecha($fecha)           { $this->fecha = $fecha; }
+    public function setEstado($estado)         { $this->estado = $estado; }
+    public function setImporteFinal($importe)  { $this->importe_final = $importe; }
+    public function setArchivado($archivado)   { $this->archivado = $archivado; }
 }
 
 ?>
