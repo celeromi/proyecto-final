@@ -141,6 +141,18 @@ class PresupuestoDAO extends Model {
         }
     }
 
+    public function last_insert_id(){
+        try {
+            $query = $this->db->connect()->query("SELECT LAST_INSERT_ID() AS id");
+            $row = $query->fetch(PDO::FETCH_ASSOC);
+            return $row['id'] ?? null;
+        } catch (PDOException $e){
+            error_log("PresupuestoDAO::last_insert_id -> ".$e->getMessage());
+            return null;
+        }
+    }
+
+
 }
 
 ?>

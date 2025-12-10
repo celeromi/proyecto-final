@@ -37,102 +37,142 @@ class Presupuestos extends Controller{
     }
 
     function create(){
+        $usuarioDAO = new UsuarioDAO();
+        $usuarios = $usuarioDAO->read(0);
+        $this->view->usuarios = $usuarios;
+
+        $clienteDAO = new ClienteDAO();
+        $clientes = $clienteDAO->read(0);
+        $this->view->clientes = $clientes;
+
+        $productoDAO = new ProductoDAO();
+        $productos = $productoDAO->read(0);
+        $this->view->productos = $productos;
+        
         $this->view->render('presupuestos/create');
     }
 
+    /*  */
     function insert(){
-        if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST'){
+            new Errores();
+            return;
+        }
 
-            /* Validación pendiente */
+        // --- VALIDACIONES BÁSICAS ---
+        if (empty($_POST['id_usuario']) ||
+            empty($_POST['id_cliente']) ||
+            empty($_POST['fecha']) ||
+            empty($_POST['id_producto'])
+        ){
+            new Errores("Faltan campos obligatorios");
+            return;
+        }
 
-            // Mapeo del presupuesto
-            $presupuesto = new Presupuesto();
-            $presupuesto = $this->data_mapping($presupuesto, $_POST);
+        // --- CALCULAR IMPORTE FINAL ---
+        $importe_final = 0;
+
+        $productoDAO = new ProductoDAO();
+
+        foreach ($_POST['id_producto'] as $index => $producto_id){
+            $cantidad = $_POST['cantidades'][$index] ?? 1;
+            $producto = $productoDAO->find_id($producto_id);
+            if ($producto){
+                $importe_final += $producto->getPrecioUnitario() * $cantidad;
+            }
+        }
+
+        // --- MAPEO DEL PRESUPUESTO ---
+        $presupuesto = new Presupuesto();
+
+        // Ingreso datos del POST excepto importe_final
+        $presupuesto = $this->data_mapping($presupuesto, $_POST);
+
+        // Sobrescribir importe final calculado
+        $presupuesto->setImporteFinal($importe_final);
+
+        // --- GUARDAR PRESUPUESTO ---
+        $presupuestoDAO = new PresupuestoDAO();
+        $resultado = $presupuestoDAO->create($presupuesto);
+
+        if (!$resultado){
+            new Errores("No se pudo crear el presupuesto");
+            return;
+        }
+
+        // Obtener ID generado
+        $id_presupuesto = $presupuestoDAO->last_insert_id();
+
+        // --- INSERTAR DETALLES ---
+        $detalleDAO = new PresupuestoDetalleDAO();
+
+        foreach ($_POST['id_producto'] as $index => $producto_id){
+
+            $detalle = new PresupuestoDetalle();
+            $detalle = $this->data_mapping_det($detalle, [
+                'id_presupuesto' => $id_presupuesto,
+                'id_producto'    => $producto_id,
+                'cantidades'     => $_POST['cantidades'][$index] ?? 1
+            ]);
+
+            $detalleDAO->create($detalle);
+        }
+
+        // --- TODO OK → volver al listado ---
+        $this->render();
+    }
+    /*  */
+
+    function show($param = null){
+        if (isset($param) && is_array($param) && count($param) > 0){
+            $id = $param[0];
 
             $presupuestoDAO = new PresupuestoDAO();
-            $resultado = $presupuestoDAO->create($presupuesto);
+            $presupuesto = $presupuestoDAO->find_id($id);
 
-            // Obtener el ID generado
-            $id_presupuesto = $presupuestoDAO->last_insert_id();
-
-            // Mapeo de detalle (soporta múltiples detalles)
-            if (!empty($_POST['id_producto']) && is_array($_POST['id_producto'])){
-
-                foreach ($_POST['id_producto'] as $index => $producto_id){
-
-                    $detalle = new PresupuestoDetalle();
-                    $detalle = $this->data_mapping_det($detalle, [
-                        'id_presupuesto' => $id_presupuesto,
-                        'id_producto'    => $producto_id,
-                        'cantidades'     => $_POST['cantidades'][$index] ?? 1
-                    ]);
-
-                    $detalleDAO = new PresupuestoDetalleDAO();
-                    $detalleDAO->create($detalle);
-                }
-            }
-
-            if ($resultado){
-                $this->render();
-            } else {
+            if (!$presupuesto){
                 $controller = new Errores();
+                return;
             }
 
+            // === Detalles ===
+            $presupuesto_id = $presupuesto->getIdPresupuesto();
+            $detalleDAO = new PresupuestoDetalleDAO();
+            $detalles = $detalleDAO->find_by_presupuesto($presupuesto_id);
+
+            // === Usuario asociado ===
+            $usuarioDAO = new UsuarioDAO();
+            $usuario = $usuarioDAO->find_id($presupuesto->getIdUsuario());
+
+            // === Cliente asociado (si existe) ===
+            $cliente = null;
+            if ($presupuesto->getIdCliente() != null){
+                $clienteDAO = new ClienteDAO();
+                $cliente = $clienteDAO->find_id($presupuesto->getIdCliente());
+            }
+
+            // === Productos de cada detalle ===
+            $productoDAO = new ProductoDAO();
+            $productos = [];
+
+            foreach ($detalles as $det){
+                $prod = $productoDAO->find_id($det->getIdProducto());
+                $productos[$det->getIdDetalle()] = $prod;
+            }
+
+            // === Pasamos todo a la vista ===
+            $this->view->presupuesto = $presupuesto;
+            $this->view->usuario = $usuario;
+            $this->view->cliente = $cliente;
+            $this->view->detalles = $detalles;
+            $this->view->productos = $productos;
+
+            $this->view->render('presupuestos/show');
+            
         } else {
             $controller = new Errores();
         }
     }
-
-function show($param = null){
-    if (isset($param) && is_array($param) && count($param) > 0){
-        $id = $param[0];
-
-        $presupuestoDAO = new PresupuestoDAO();
-        $presupuesto = $presupuestoDAO->find_id($id);
-
-        if (!$presupuesto){
-            $controller = new Errores();
-            return;
-        }
-
-        // === Detalles ===
-        $presupuesto_id = $presupuesto->getIdPresupuesto();
-        $detalleDAO = new PresupuestoDetalleDAO();
-        $detalles = $detalleDAO->find_by_presupuesto($presupuesto_id);
-
-        // === Usuario asociado ===
-        $usuarioDAO = new UsuarioDAO();
-        $usuario = $usuarioDAO->find_id($presupuesto->getIdUsuario());
-
-        // === Cliente asociado (si existe) ===
-        $cliente = null;
-        if ($presupuesto->getIdCliente() != null){
-            $clienteDAO = new ClienteDAO();
-            $cliente = $clienteDAO->find_id($presupuesto->getIdCliente());
-        }
-
-        // === Productos de cada detalle ===
-        $productoDAO = new ProductoDAO();
-        $productos = [];
-
-        foreach ($detalles as $det){
-            $prod = $productoDAO->find_id($det->getIdProducto());
-            $productos[$det->getIdDetalle()] = $prod;
-        }
-
-        // === Pasamos todo a la vista ===
-        $this->view->presupuesto = $presupuesto;
-        $this->view->usuario = $usuario;
-        $this->view->cliente = $cliente;
-        $this->view->detalles = $detalles;
-        $this->view->productos = $productos;
-
-        $this->view->render('presupuestos/show');
-        
-    } else {
-        $controller = new Errores();
-    }
-}
 
 
     function edit($param = null){
@@ -300,9 +340,6 @@ function show($param = null){
         return $presupuesto;
     }
 
-    // ======================================================
-    // DATA MAPPING DETALLE
-    // ======================================================
     private function data_mapping_det($detalle, $post){
         if (isset($post['id_detalle'])){
             $detalle->setIdDetalle($post['id_detalle']);
