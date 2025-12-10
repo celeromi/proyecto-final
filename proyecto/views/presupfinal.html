@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="../assets/img/icon.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+    <title>Nuevo presupuesto</title>
+</head>
+<body>
+    <div id="header-container"></div>
+
+    <div class="container mt-4 p-4">
+        <h1 class="text-center mb-4">Presupuesto Final</h1>
+
+        <div class="card bg-light text-dark p-4 mb-4 custom-card-shadow" id="cardCliente">
+<!--Tipo de factura-->            
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label for="selectTipoFactura" class="form-label">Tipo de Factura:</label>
+                    <select class="form-select" id="selectTipoFactura">
+                        <option>Factura A</option>
+                        <option>Factura B</option>
+                        <option>Ticket</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="inputFechaEmision" class="form-label">Fecha de Emisión:</label>
+                    <input type="date" class="form-control" id="inputFechaEmision" value="2025-03-18">
+                </div>
+                <div class="col-md-4">
+                    <label for="inputFechaFinalizacion" class="form-label">Fecha de Finalización:</label>
+                    <input type="date" class="form-control" id="inputFechaFinalizacion" value="2025-04-18">
+                </div>
+            </div>
+<!--Datos del cliente-->
+            <div class="row align-items-end mb-3">
+                <div class="col-md-12">
+                    <label for="inputBuscarCliente" class="form-label">Buscar Cliente:</label>
+                    <input type="text" class="form-control" id="inputBuscarCliente">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="inputNombreCliente" class="form-label">Nombre:</label>
+                    <input type="text" class="form-control" id="inputNombreCliente" value="" readonly>
+                </div>
+                <div class="col-md-6">
+                    <label for="inputApellidoCliente" class="form-label">Apellido:</label>
+                    <input type="text" class="form-control" id="inputApellidoCliente" value="" readonly>
+                </div>
+            </div>
+            <div class="row">                
+                <div class="col-md-6">
+                    <label for="inputDireccionCliente" class="form-label">Dirección:</label>
+                    <input type="text" class="form-control" id="inputDireccionCliente" value="" readonly>
+                </div>
+                <div class="col-md-6">
+                    <label for="inputTelefonoCliente" class="form-label">Teléfono:</label>
+                    <input type="text" class="form-control" id="inputTelefonoCliente" value="" readonly>
+                </div>
+            </div>
+        </div>
+<!--Carrito-->
+        <div class="card bg-light p-4 custom-card-shadow">
+            <h2 class="text-center mb-4">Productos Agregados al Presupuesto</h2>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                            <th>Precio</th>
+                            <th>Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaPresupuesto"></tbody>
+                </table>
+            </div>
+        </div>
+<!--Forma de pago-->  
+        <div class="card bg-light p-4 custom-card-shadow mt-4">
+            <h2 class="text-center mb-4">Productos Agregados al Presupuesto</h2>
+            <div class="col-md-6">
+                    <label for="selectTipoFactura" class="form-label">Tipo de Factura:</label>
+                    <select class="form-select" id="selectTipoFactura">
+                        <option>Efectivo</option>
+                        <option>Transferencia</option>
+                        <option>Tarjeta de debito</option>
+                        <option>Tarjeta de credito?</option>
+                    </select>
+                </div>
+            <div class="d-flex justify-content-end align-items-end mt-3">
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalFacturar" id="btnfacura">Facturar</button>
+            </div>
+        </div>
+    </div>
+    <!--modal con imprimir y guardar-->
+    <div class="modal fade" id="modalFacturar" tabindex="-1" aria-labelledby="modalFacturarLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header bg-secondary text-white">
+            <h5 class="modal-title" id="modalFacturarLabel">Confirmar Facturación</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body">
+            <p><strong>[aca iria la factura]</strong></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" id="btnImprimirFactura">Imprimir y guardar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+<!--imprimible de la factura-->
+
+  <script>
+    fetch('layouts/header.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('header-container').innerHTML = data;
+      });
+  </script>
+
+</body>
+</html>
