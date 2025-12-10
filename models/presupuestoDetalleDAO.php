@@ -11,7 +11,7 @@ class PresupuestoDetalleDAO extends Model {
     public function create(PresupuestoDetalle $detalle){
         try {
             $query = $this->db->connect()->prepare("
-                INSERT INTO presupuesto_detalle
+                INSERT INTO detalle_presupuesto
                 (id_presupuesto, id_producto, cantidades, archivado)
                 VALUES (:id_presupuesto, :id_producto, :cantidades, :archivado)
             ");
@@ -36,10 +36,10 @@ class PresupuestoDetalleDAO extends Model {
         try {
             if ($option == 0 || $option == 1) {
                 $query = $this->db->connect()->query("
-                    SELECT * FROM presupuesto_detalle WHERE archivado = $option
+                    SELECT * FROM detalle_presupuesto WHERE archivado = $option
                 ");
             } else {
-                $query = $this->db->connect()->query("SELECT * FROM presupuesto_detalle");
+                $query = $this->db->connect()->query("SELECT * FROM detalle_presupuesto");
             }
 
             while ($row = $query->fetch()){
@@ -63,7 +63,7 @@ class PresupuestoDetalleDAO extends Model {
     public function find_id($id){
         try {
             $query = $this->db->connect()->prepare("
-                SELECT * FROM presupuesto_detalle WHERE id_detalle = :id LIMIT 1
+                SELECT * FROM detalle_presupuesto WHERE id_detalle = :id LIMIT 1
             ");
             $query->execute(['id' => $id]);
             $row = $query->fetch(PDO::FETCH_ASSOC);
@@ -91,7 +91,7 @@ class PresupuestoDetalleDAO extends Model {
 
         try {
             $query = $this->db->connect()->prepare("
-                SELECT * FROM presupuesto_detalle 
+                SELECT * FROM detalle_presupuesto 
                 WHERE id_presupuesto = :id_presupuesto AND archivado = 0
             ");
             $query->execute(['id_presupuesto' => $id_presupuesto]);
@@ -117,7 +117,7 @@ class PresupuestoDetalleDAO extends Model {
     public function update(PresupuestoDetalle $detalle){
         try {
             $query = $this->db->connect()->prepare("
-                UPDATE presupuesto_detalle SET
+                UPDATE detalle_presupuesto SET
                     id_presupuesto = :id_presupuesto,
                     id_producto    = :id_producto,
                     cantidades     = :cantidades
@@ -141,7 +141,7 @@ class PresupuestoDetalleDAO extends Model {
     public function hide($id_detalle){
         try {
             $query = $this->db->connect()->prepare("
-                UPDATE presupuesto_detalle 
+                UPDATE detalle_presupuesto 
                 SET archivado = 1 
                 WHERE id_detalle = :id_detalle
             ");
@@ -157,7 +157,7 @@ class PresupuestoDetalleDAO extends Model {
     public function delete($id_detalle){
         try {
             $query = $this->db->connect()->prepare("
-                DELETE FROM presupuesto_detalle WHERE id_detalle = :id
+                DELETE FROM detalle_presupuesto WHERE id_detalle = :id
             ");
 
             $query->execute(['id' => $id_detalle]);

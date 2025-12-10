@@ -2,6 +2,10 @@
 
 include('controllers/errores.php');
 
+include('models/usuario.php');     
+include('models/usuarioDAO.php');
+include('models/cliente.php');     
+include('models/clienteDAO.php');
 include('models/presupuesto.php');     
 include('models/presupuestoDAO.php');
 include('models/presupuestoDetalle.php');     
@@ -14,9 +18,19 @@ class Presupuestos extends Controller{
     }
 
     function render(){
+
+        $usuarioDAO = new UsuarioDAO();
+        $usuarios = $usuarioDAO->read(0);
+        $this->view->usuarios = $usuarios;
+
+        $clienteDAO = new ClienteDAO();
+        $clientes = $clienteDAO->read(0);
+        $this->view->clientes = $clientes;
+
         $presupuestoDAO = new PresupuestoDAO();
         $presupuestos = $presupuestoDAO->read(0);
         $this->view->presupuestos = $presupuestos;
+        
         $this->view->render('presupuestos/index');
     }
 
@@ -27,27 +41,41 @@ class Presupuestos extends Controller{
     function insert(){
         if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
-            /* Validadción de datos presupuesto */
-            
-            /* Validadción de datos detalles */
-            
+            /* Validación pendiente */
+
+            // Mapeo del presupuesto
             $presupuesto = new Presupuesto();
             $presupuesto = $this->data_mapping($presupuesto, $_POST);
 
             $presupuestoDAO = new PresupuestoDAO();
             $resultado = $presupuestoDAO->create($presupuesto);
 
-            $detalles = new presupuestoDetalle();
-            $detalles = $this->data_mapping_det($detalles, $_POST);
+            // Obtener el ID generado
+            $id_presupuesto = $presupuestoDAO->last_insert_id();
 
-            $detallesDAO = new presupuestoDetalleDAO();
-            $resultado = $detallesDAO->create($detalles);
+            // Mapeo de detalle (soporta múltiples detalles)
+            if (!empty($_POST['id_producto']) && is_array($_POST['id_producto'])){
+
+                foreach ($_POST['id_producto'] as $index => $producto_id){
+
+                    $detalle = new PresupuestoDetalle();
+                    $detalle = $this->data_mapping_det($detalle, [
+                        'id_presupuesto' => $id_presupuesto,
+                        'id_producto'    => $producto_id,
+                        'cantidades'     => $_POST['cantidades'][$index] ?? 1
+                    ]);
+
+                    $detalleDAO = new PresupuestoDetalleDAO();
+                    $detalleDAO->create($detalle);
+                }
+            }
 
             if ($resultado){
                 $this->render();
             } else {
                 $controller = new Errores();
             }
+
         } else {
             $controller = new Errores();
         }
@@ -83,9 +111,8 @@ class Presupuestos extends Controller{
             $presupuestoDAO = new PresupuestoDAO();
             $presupuesto = $presupuestoDAO->find_id($id);
 
-            $presupuesto_id = $presupuesto->getIdPresupuesto();
             $detalleDAO = new PresupuestoDetalleDAO();
-            $detalles = $detalleDAO->find_by_presupuesto($presupuesto_id);
+            $detalles = $detalleDAO->find_by_presupuesto($id);
 
             if ($presupuesto){
                 $this->view->detalle = $detalles;
@@ -99,30 +126,165 @@ class Presupuestos extends Controller{
         }
     }
 
+    // ======================================================
+    //  UPDATE
+    // ======================================================
     function update(){
-        /*  */
+        if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+
+            $presupuesto = new Presupuesto();
+            $presupuesto = $this->data_mapping($presupuesto, $_POST);
+
+            $presupuestoDAO = new PresupuestoDAO();
+            $resultado = $presupuestoDAO->update($presupuesto);
+
+            // Actualizar detalles
+            $detalleDAO = new PresupuestoDetalleDAO();
+            $detalleDAO->delete_by_presupuesto($presupuesto->getIdPresupuesto());
+
+            if (!empty($_POST['id_producto']) && is_array($_POST['id_producto'])){
+                foreach ($_POST['id_producto'] as $index => $producto_id){
+                    
+                    $detalle = new PresupuestoDetalle();
+                    $detalle = $this->data_mapping_det($detalle, [
+                        'id_presupuesto' => $presupuesto->getIdPresupuesto(),
+                        'id_producto'    => $producto_id,
+                        'cantidades'     => $_POST['cantidades'][$index] ?? 1
+                    ]);
+
+                    $detalleDAO->create($detalle);
+                }
+            }
+
+            if ($resultado){
+                $this->render();
+            } else {
+                $controller = new Errores();
+            }
+
+        } else {
+            $controller = new Errores();
+        }
     }
 
-    function find(){ 
-        /*  */
+    // ======================================================
+    // FIND
+    // ======================================================
+    function find(){
+        if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+
+            $buscar = $_POST['buscar'] ?? '';
+
+            $presupuestoDAO = new PresupuestoDAO();
+            $presupuestos = $presupuestoDAO->search($buscar);
+
+            $this->view->presupuestos = $presupuestos;
+            $this->view->render('presupuestos/index');
+
+        } else {
+            $controller = new Errores();
+        }
     }
 
-    function hide(){
-        /*  */
+    // ======================================================
+    // HIDE (ARCHIVAR)
+    // ======================================================
+    function hide($param = null){
+        if (isset($param) && is_array($param) && count($param) > 0){
+            $id = $param[0];
+
+            $presupuestoDAO = new PresupuestoDAO();
+            $presupuesto = $presupuestoDAO->find_id($id);
+
+            if ($presupuesto){
+                $resultado = $presupuestoDAO->hide($presupuesto->getIdPresupuesto());
+
+                if ($resultado){
+                    $presupuestos = $presupuestoDAO->read(0);
+                    $this->view->presupuestos = $presupuestos;
+                    $this->view->render('presupuestos/index');
+                } else {
+                    $controller = new Errores();
+                }
+
+            } else {
+                $controller = new Errores();
+            }
+        } else {
+            $controller = new Errores();
+        }
     }
 
-    function delete(){
-        /*  */
+    // ======================================================
+    // DELETE
+    // ======================================================
+    function delete($param = null){
+        if (isset($param) && is_array($param) && count($param) > 0){
+            $id = $param[0];
+
+            $presupuestoDAO = new PresupuestoDAO();
+            $presupuesto = $presupuestoDAO->find_id($id);
+
+            if ($presupuesto){
+
+                // Borrar detalles primero
+                $detalleDAO = new PresupuestoDetalleDAO();
+                $detalleDAO->delete_by_presupuesto($id);
+
+                // Luego borrar el presupuesto
+                $resultado = $presupuestoDAO->delete($id);
+
+                if ($resultado){
+                    $presupuestos = $presupuestoDAO->read(0);
+                    $this->view->presupuestos = $presupuestos;
+                    $this->view->render('presupuestos/index');
+                } else {
+                    $controller = new Errores();
+                }
+
+            } else {
+                $controller = new Errores();
+            }
+
+        } else {
+            $controller = new Errores();
+        }
     }
 
-    function data_mapping(){
-        /*  */
+    // ======================================================
+    // DATA MAPPING
+    // ======================================================
+    private function data_mapping($presupuesto, $post){
+        if (isset($post['id_presupuesto'])){
+            $presupuesto->setIdPresupuesto($post['id_presupuesto']);
+        }
+
+        $presupuesto->setIdUsuario($post['id_usuario']);
+        $presupuesto->setIdCliente($post['id_cliente']);
+        $presupuesto->setFecha($post['fecha']);
+        $presupuesto->setEstado($post['estado']);
+        $presupuesto->setImporteFinal($post['importe_final']);
+        $presupuesto->setArchivado($post['archivado'] ?? 0);
+
+        return $presupuesto;
     }
 
-    function data_mapping_det(){
-        /*  */
+    // ======================================================
+    // DATA MAPPING DETALLE
+    // ======================================================
+    private function data_mapping_det($detalle, $post){
+        if (isset($post['id_detalle'])){
+            $detalle->setIdDetalle($post['id_detalle']);
+        }
+
+        $detalle->setIdPresupuesto($post['id_presupuesto']);
+        $detalle->setIdProducto($post['id_producto']);
+        $detalle->setCantidades($post['cantidades']);
+        $detalle->setArchivado($post['archivado'] ?? 0);
+
+        return $detalle;
     }
 
-} 
+}
 
 ?>
