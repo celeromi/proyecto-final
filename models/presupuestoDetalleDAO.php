@@ -44,7 +44,7 @@ class PresupuestoDetalleDAO extends Model {
 
             while ($row = $query->fetch()){
                 $item = new PresupuestoDetalle();
-                $item->setIdDetalle($row['id_detalle']);
+                $item->setIdDetalle($row['id_detalles_presupuesto']);
                 $item->setIdPresupuesto($row['id_presupuesto']);
                 $item->setIdProducto($row['id_producto']);
                 $item->setCantidades($row['cantidades']);
@@ -62,15 +62,13 @@ class PresupuestoDetalleDAO extends Model {
 
     public function find_id($id){
         try {
-            $query = $this->db->connect()->prepare("
-                SELECT * FROM detalle_presupuesto WHERE id_detalle = :id LIMIT 1
-            ");
+            $query = $this->db->connect()->prepare("SELECT * FROM detalle_presupuesto WHERE id_detalle = :id LIMIT 1");
             $query->execute(['id' => $id]);
             $row = $query->fetch(PDO::FETCH_ASSOC);
 
             if ($row){
                 $detalle = new PresupuestoDetalle();
-                $detalle->setIdDetalle($row['id_detalle']);
+                $detalle->setIdDetalle($row['id_detalles_presupuesto']);
                 $detalle->setIdPresupuesto($row['id_presupuesto']);
                 $detalle->setIdProducto($row['id_producto']);
                 $detalle->setCantidades($row['cantidades']);
@@ -90,10 +88,7 @@ class PresupuestoDetalleDAO extends Model {
         $items = [];
 
         try {
-            $query = $this->db->connect()->prepare("
-                SELECT * FROM detalle_presupuesto 
-                WHERE id_presupuesto = :id_presupuesto AND archivado = 0
-            ");
+            $query = $this->db->connect()->prepare("SELECT * FROM detalle_presupuesto WHERE id_presupuesto = :id_presupuesto AND archivado = 0");
             $query->execute(['id_presupuesto' => $id_presupuesto]);
 
             while ($row = $query->fetch()){
@@ -138,31 +133,21 @@ class PresupuestoDetalleDAO extends Model {
         }
     }
 
-    public function hide($id_detalle){
+    public function hide($id){
         try {
-            $query = $this->db->connect()->prepare("
-                UPDATE detalle_presupuesto 
-                SET archivado = 1 
-                WHERE id_detalle = :id_detalle
-            ");
-
-            $query->execute(['id_detalle' => $id_detalle]);
+            $query = $this->db->connect()->prepare("UPDATE detalle_presupuesto SET archivado = 1 WHERE id_detalles_presupuesto = :id");
+            $query->execute(['id' => $id]);
             return true;
-
         } catch (PDOException $e){
             return false;
         }
     }
 
-    public function delete($id_detalle){
+    public function delete($id){
         try {
-            $query = $this->db->connect()->prepare("
-                DELETE FROM detalle_presupuesto WHERE id_detalle = :id
-            ");
-
-            $query->execute(['id' => $id_detalle]);
+            $query = $this->db->connect()->prepare("DELETE FROM detalle_presupuesto WHERE id_detalles_presupuesto = :id");
+            $query->execute(['id' => $id]);
             return true;
-
         } catch (PDOException $e){
             return false;
         }

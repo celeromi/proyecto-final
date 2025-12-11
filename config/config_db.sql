@@ -85,13 +85,13 @@ CREATE TABLE `presupuesto` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `detalle_presupuesto` (
-  `id_detalle_presupuesto` INT(11) NOT NULL AUTO_INCREMENT,
+  `id_detalles_presupuesto` INT(11) NOT NULL AUTO_INCREMENT,
   `id_presupuesto_fk` INT(11) NOT NULL,
   `id_producto_fk` INT(11) NOT NULL,
   `cantidad` INT(11) NOT NULL,
   `precio_cotizado` DECIMAL(10, 2) NOT NULL,
   `archivado` TINYINT(1) DEFAULT 0,
-  PRIMARY KEY (`id_detalle_presupuesto`),
+  PRIMARY KEY (`id_detalles_presupuesto`),
   FOREIGN KEY (`id_presupuesto_fk`) REFERENCES `presupuesto`(`id_presupuesto`),
   FOREIGN KEY (`id_producto_fk`) REFERENCES `productos`(`id_producto`),
   UNIQUE KEY `uk_detalle_presupuesto` (`id_presupuesto_fk`, `id_producto_fk`)
