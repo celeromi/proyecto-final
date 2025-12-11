@@ -56,74 +56,47 @@ class Presupuestos extends Controller{
 
     // ====================================================== //
     function insert(){
+
         if ($_SERVER['REQUEST_METHOD'] !== 'POST'){
             new Errores();
             return;
         }
 
-        // --- VALIDACIONES BÁSICAS ---
-        if (empty($_POST['id_usuario']) ||
-            empty($_POST['id_cliente']) ||
-            empty($_POST['fecha']) ||
-            empty($_POST['id_producto'])
-        ){
+        if (empty($_POST['id_usuario']) || empty($_POST['fecha'])){
             new Errores("Faltan campos obligatorios");
             return;
         }
 
-        // --- CALCULAR IMPORTE FINAL ---
-        $importe_final = 0;
+        $presupuesto = new Presupuesto();
+        $presupuesto = $this->data_mapping($presupuesto, $_POST);
 
-        $productoDAO = new ProductoDAO();
+        $presupuestoDAO = new PresupuestoDAO();
 
-        foreach ($_POST['id_producto'] as $index => $producto_id){
-            $cantidad = $_POST['cantidades'][$index] ?? 1;
-            $producto = $productoDAO->find_id($producto_id);
-            if ($producto){
-                $importe_final += $producto->getPrecioUnitario() * $cantidad;
+        if (!$presupuestoDAO->create($presupuesto)){
+            new Errores("No se pudo insertar el presupuesto");
+            return;
+        }
+        $id_presupuesto = $presupuestoDAO->last_insert_id();
+
+        //var_dump($id_presupuesto); exit;
+        if (!empty($_POST['id_producto'])){
+            
+            for ($i = 0; $i < count($_POST['id_producto']); $i++){
+                $detalle = new PresupuestoDetalle();
+
+                $detalle->setIdPresupuesto($id_presupuesto);
+                $detalle->setIdProducto($_POST['id_producto'][$i]);
+                $detalle->setCantidades($_POST['cantidades'][$i]);
+                $detalle->setArchivado(0);
+
+                $detalleDAO = new PresupuestoDetalleDAO();
+                $detalleDAO->create($detalle);
             }
         }
 
-        // --- MAPEO DEL PRESUPUESTO ---
-        $presupuesto = new Presupuesto();
-
-        // Ingreso datos del POST excepto importe_final
-        $presupuesto = $this->data_mapping($presupuesto, $_POST);
-
-        // Sobrescribir importe final calculado
-        $presupuesto->setImporteFinal($importe_final);
-
-        // --- GUARDAR PRESUPUESTO ---
-        $presupuestoDAO = new PresupuestoDAO();
-        $resultado = $presupuestoDAO->create($presupuesto);
-
-        if (!$resultado){
-            new Errores("No se pudo crear el presupuesto");
-            return;
-        }
-
-        // Obtener ID generado
-        $id_presupuesto = $presupuestoDAO->last_insert_id();
-
-        // --- INSERTAR DETALLES ---
-        $detalleDAO = new PresupuestoDetalleDAO();
-
-        foreach ($_POST['id_producto'] as $index => $producto_id){
-
-            $detalle = new PresupuestoDetalle();
-            $detalle = $this->data_mapping_det($detalle, [
-                'id_presupuesto' => $id_presupuesto,
-                'id_producto'    => $producto_id,
-                'cantidades'     => $_POST['cantidades'][$index] ?? 1
-            ]);
-
-            $detalleDAO->create($detalle);
-        }
-
-        // --- TODO OK → volver al listado ---
         $this->render();
     }
-    /*  */
+
 
     // ====================================================== //
     function show($param = null){

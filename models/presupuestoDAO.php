@@ -135,9 +135,9 @@ class PresupuestoDAO extends Model {
 
     public function last_insert_id(){
         try {
-            $query = $this->db->connect()->query("SELECT LAST_INSERT_ID() AS id");
+            $query = $this->db->connect()->query("SELECT id_presupuesto FROM presupuestos ORDER BY id_presupuesto DESC LIMIT 1");
             $row = $query->fetch(PDO::FETCH_ASSOC);
-            return $row['id'] ?? null;
+            return $row['id_presupuesto'] ?? null;
         } catch (PDOException $e){
             error_log("PresupuestoDAO::last_insert_id -> ".$e->getMessage());
             return null;
