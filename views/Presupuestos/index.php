@@ -14,18 +14,14 @@
   <?php
   function buscarUsuarioPorId($usuarios, $id) {
       foreach ($usuarios as $u) {
-          if ($u->getIdUsuario() == $id) {
-              return $u;
-          }
+          if ($u->getIdUsuario() == $id) return $u;
       }
       return null;
   }
 
   function buscarClientePorId($clientes, $id) {
       foreach ($clientes as $c) {
-          if ($c->getIdCliente() == $id) {
-              return $c;
-          }
+          if ($c->getIdCliente() == $id) return $c;
       }
       return null;
   }
@@ -33,6 +29,7 @@
   <!-- ↑↑↑ Pendiente a mejorar  -->
 
   <?php include('views/layouts/sidebar.php'); ?>
+
   <div class="d-flex flex-column flex-grow-1">
     <?php include('views/layouts/header.php'); ?>
 
@@ -52,60 +49,57 @@
           <table class="table table-striped align-middle">
             <thead class="table-info">
               <tr>
-                <th scope="col">#</th>
-                <th scope="col">Vendedor</th>
-                <th scope="col">Cliente</th>
-                <th scope="col">Fecha</th>
-                <th scope="col">Estado</th>
-                <th scope="col">Importe Final</th>
-                <th scope="col" class="text-center">Acciones</th>
+                <th>#</th>
+                <th>Vendedor</th>
+                <th>Cliente</th>
+                <th>Fecha</th>
+                <th>Estado</th>
+                <th>Importe Final</th>
+                <th>Editar Estado</th>
+                <th class="text-center">Acciones</th>
               </tr>
             </thead>
 
             <tbody>
 
-              <!--  -->
               <?php foreach ($this->presupuestos as $index => $p) : ?>
 
                 <?php
                   $usuario = buscarUsuarioPorId($this->usuarios, $p->getIdUsuario());
-                  $cliente = ($p->getIdCliente() !== null) ? buscarClientePorId($this->clientes, $p->getIdCliente()) : null;
+                  $cliente = ($p->getIdCliente() !== null)
+                    ? buscarClientePorId($this->clientes, $p->getIdCliente())
+                    : null;
                 ?>
 
                 <tr>
-                  <th scope="row"><?php echo $index + 1; ?></th>
+                  <th><?php echo $index + 1; ?></th>
 
                   <!-- USUARIO -->
                   <td>
                     <?php 
-                      if ($usuario) {
-                        echo htmlspecialchars($usuario->getUsuario());
-                      } else {
-                        echo '<span class="text-muted">Desconocido</span>';
-                      }
+                      echo $usuario
+                        ? htmlspecialchars($usuario->getUsuario())
+                        : '<span class="text-muted">Desconocido</span>';
                     ?>
                   </td>
 
                   <!-- CLIENTE -->
                   <td>
                     <?php 
-                      if ($cliente) {
-                        echo htmlspecialchars($cliente->getNombre() . " " . $cliente->getApellido());
-                      } else {
-                        echo '<span class="text-muted">Sin cliente</span>';
-                      }
+                      echo $cliente
+                        ? htmlspecialchars($cliente->getNombre() . " " . $cliente->getApellido())
+                        : '<span class="text-muted">Sin cliente</span>';
                     ?>
                   </td>
 
                   <!-- FECHA -->
                   <td><?php echo htmlspecialchars($p->getFecha()); ?></td>
 
-                  <!-- ESTADO -->
+                  <!-- ESTADO (Badge) -->
                   <td>
                     <?php 
                       $estado = $p->getEstado();
                       $badge = "secondary";
-
                       if ($estado === "Pendiente") $badge = "warning";
                       if ($estado === "Aprobado") $badge = "success";
                       if ($estado === "Rechazado") $badge = "danger";
@@ -117,6 +111,25 @@
                   <!-- IMPORTE -->
                   <td>$<?php echo number_format($p->getImporteFinal(), 2, ',', '.'); ?></td>
 
+                  <!-- EDITAR ESTADO -->
+                  <td>
+                    <div class="input-group">
+                      <select class="form-select form-select-sm estado-select"
+                              data-id="<?php echo $p->getIdPresupuesto(); ?>">
+
+                        <option value="Aprobado"   <?php echo ($estado==="Aprobado")  ? "selected" : ""; ?>>Aprobado</option>
+                        <option value="Pendiente"  <?php echo ($estado==="Pendiente") ? "selected" : ""; ?>>Pendiente</option>
+                        <option value="Rechazado"  <?php echo ($estado==="Rechazado") ? "selected" : ""; ?>>Rechazado</option>
+
+                      </select>
+
+                      <button class="btn btn-warning btn-sm cambiar-estado-btn"
+                              data-id="<?php echo $p->getIdPresupuesto(); ?>">
+                        <i class="bi bi-pencil-square"></i>
+                      </button>
+                    </div>
+                  </td>
+
                   <!-- ACCIONES -->
                   <td class="text-center">
                     <div class="btn-group" role="group">
@@ -125,12 +138,6 @@
                       <a href="<?php echo constant('URL');?>presupuestos/show/<?php echo $p->getIdPresupuesto(); ?>"
                         class="btn btn-outline-primary btn-sm" data-bs-toggle="tooltip" title="Ver">
                         <i class="bi bi-eye"></i>
-                      </a>
-
-                      <!-- Editar -->
-                      <a href="<?php echo constant('URL');?>presupuestos/edit/<?php echo $p->getIdPresupuesto(); ?>"
-                        class="btn btn-outline-warning btn-sm" data-bs-toggle="tooltip" title="Editar">
-                        <i class="bi bi-pencil-square"></i>
                       </a>
 
                       <!-- Archivar -->
@@ -153,7 +160,6 @@
                 </tr>
 
               <?php endforeach; ?>
-              <!--  -->
 
             </tbody>
           </table>
@@ -161,18 +167,32 @@
 
       <?php else : ?>
 
-        <div class="alert alert-info text-center" role="alert">
-          No hay presupuestos registrados actualmente.
-        </div>
+        <div class="alert alert-info text-center">No hay presupuestos registrados actualmente.</div>
 
       <?php endif; ?>
     </main>
   </div>
 
   <script src="<?php echo constant('URL');?>public/js/bootstrap.bundle.min.js"></script>
+
   <script>
-    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-    const tooltipList = [...tooltipTriggerList].map(el => new bootstrap.Tooltip(el));
+    document.addEventListener("DOMContentLoaded", () => {
+
+        document.querySelectorAll(".cambiar-estado-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+
+                let id = btn.getAttribute("data-id");
+                let select = document.querySelector('.estado-select[data-id="' + id + '"]');
+                let estado = select.value;
+
+                if (!confirm("¿Cambiar estado a: " + estado + "?")) return;
+
+                window.location.href =
+                    "<?php echo constant('URL'); ?>presupuestos/update_status/" + id + "/" + estado;
+            });
+        });
+
+    });
   </script>
 
 </body>

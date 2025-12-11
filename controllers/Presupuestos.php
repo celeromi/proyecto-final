@@ -19,6 +19,7 @@ class Presupuestos extends Controller{
         parent::__construct();
     }
 
+    // ====================================================== //
     function render(){
 
         $usuarioDAO = new UsuarioDAO();
@@ -36,6 +37,7 @@ class Presupuestos extends Controller{
         $this->view->render('presupuestos/index');
     }
 
+    // ====================================================== //
     function create(){
         $usuarioDAO = new UsuarioDAO();
         $usuarios = $usuarioDAO->read(0);
@@ -52,7 +54,7 @@ class Presupuestos extends Controller{
         $this->view->render('presupuestos/create');
     }
 
-    /*  */
+    // ====================================================== //
     function insert(){
         if ($_SERVER['REQUEST_METHOD'] !== 'POST'){
             new Errores();
@@ -123,6 +125,7 @@ class Presupuestos extends Controller{
     }
     /*  */
 
+    // ====================================================== //
     function show($param = null){
         if (isset($param) && is_array($param) && count($param) > 0){
             $id = $param[0];
@@ -174,7 +177,7 @@ class Presupuestos extends Controller{
         }
     }
 
-
+    // ====================================================== //
     function edit($param = null){
         if (isset($param) && is_array($param) && count($param) > 0){
             $id = $param[0];
@@ -197,9 +200,7 @@ class Presupuestos extends Controller{
         }
     }
 
-    // ======================================================
-    //  UPDATE
-    // ======================================================
+    // ====================================================== //
     function update(){
         if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
@@ -238,9 +239,7 @@ class Presupuestos extends Controller{
         }
     }
 
-    // ======================================================
-    // FIND
-    // ======================================================
+    // ====================================================== //
     function find(){
         if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
@@ -257,99 +256,110 @@ class Presupuestos extends Controller{
         }
     }
 
-    // ======================================================
-    // HIDE (ARCHIVAR)
-    // ======================================================
+    // ====================================================== //
     function hide($param = null){
         if (isset($param) && is_array($param) && count($param) > 0){
             $id = $param[0];
-
             $presupuestoDAO = new PresupuestoDAO();
             $presupuesto = $presupuestoDAO->find_id($id);
-
-            if ($presupuesto){
-                $resultado = $presupuestoDAO->hide($presupuesto->getIdPresupuesto());
-
-                if ($resultado){
-                    $presupuestos = $presupuestoDAO->read(0);
-                    $this->view->presupuestos = $presupuestos;
-                    $this->view->render('presupuestos/index');
-                } else {
-                    $controller = new Errores();
+            if($presupuesto){
+                $presupuestoDAO->hide($id);
+                $presupuestoDetalleDAO = new PresupuestoDetalleDAO();
+                $detalles = $presupuestoDetalleDAO->find_by_presupuesto($id);
+                if($detalles){
+                    foreach ($detalles as $detalle) {
+                        $presupuestoDetalleDAO->hide($detalle->getIdDetalle());
+                    }
                 }
-
-            } else {
+                $this->render();
+                return;
+            }else{
+                /* No se encontro presupuesto */
                 $controller = new Errores();
             }
         } else {
+            /* No se envio Parámetro */
             $controller = new Errores();
         }
     }
 
-    // ======================================================
-    // DELETE
-    // ======================================================
+    // ====================================================== //
     function delete($param = null){
         if (isset($param) && is_array($param) && count($param) > 0){
             $id = $param[0];
-
             $presupuestoDAO = new PresupuestoDAO();
             $presupuesto = $presupuestoDAO->find_id($id);
-
-            if ($presupuesto){
-
-                // Borrar detalles primero
-                $detalleDAO = new PresupuestoDetalleDAO();
-                $detalleDAO->delete_by_presupuesto($id);
-
-                // Luego borrar el presupuesto
-                $resultado = $presupuestoDAO->delete($id);
-
-                if ($resultado){
-                    $presupuestos = $presupuestoDAO->read(0);
-                    $this->view->presupuestos = $presupuestos;
-                    $this->view->render('presupuestos/index');
-                } else {
-                    $controller = new Errores();
+            if($presupuesto){
+                $presupuestoDAO->delete($id);
+                $presupuestoDetalleDAO = new PresupuestoDetalleDAO();
+                $detalles = $presupuestoDetalleDAO->find_by_presupuesto($id);
+                if($detalles){
+                    foreach ($detalles as $detalle) {
+                        $presupuestoDetalleDAO->delete($detalle->getIdDetalle());
+                    }
                 }
-
-            } else {
+                $this->render();
+                return;
+            }else{
+                /* No se encontro presupuesto */
                 $controller = new Errores();
             }
-
         } else {
+            /* No se envio Parámetro */
             $controller = new Errores();
         }
     }
 
-    // ======================================================
-    // DATA MAPPING
-    // ======================================================
+        // ====================================================== //
+        function update_status($param = null){
+            if (!isset($param) || !is_array($param) || count($param) < 2){
+                $controller = new Errores();
+                return;
+            }
+
+            $id = intval($param[0]);
+            $estado = ucfirst(strtolower($param[1]));
+
+            $estados_validos = ["Pendiente", "Aprobado", "Rechazado"];
+            if (!in_array($estado, $estados_validos)){
+                $controller = new Errores();
+                return;
+            }
+
+            $presupuestoDAO = new PresupuestoDAO();
+            $resultado = $presupuestoDAO->update_status($id, $estado);
+
+            if ($resultado){
+                $this->render();
+            } else {
+                $controller = new Errores();
+            }
+        }
+
+
+    // ====================================================== //
     private function data_mapping($presupuesto, $post){
         if (isset($post['id_presupuesto'])){
             $presupuesto->setIdPresupuesto($post['id_presupuesto']);
         }
-
         $presupuesto->setIdUsuario($post['id_usuario']);
         $presupuesto->setIdCliente($post['id_cliente']);
         $presupuesto->setFecha($post['fecha']);
         $presupuesto->setEstado($post['estado']);
         $presupuesto->setImporteFinal($post['importe_final']);
         $presupuesto->setArchivado($post['archivado'] ?? 0);
-
         return $presupuesto;
     }
 
+    // ====================================================== //
     private function data_mapping_det($detalle, $post){
         if (isset($post['id_detalle'])){
             $detalle->setIdDetalle($post['id_detalle']);
         }
-
         $detalle->setIdPresupuesto($post['id_presupuesto']);
         $detalle->setIdProducto($post['id_producto']);
         $detalle->setCantidades($post['cantidades']);
         $detalle->setArchivado($post['archivado'] ?? 0);
-
         return $detalle;
     }
 

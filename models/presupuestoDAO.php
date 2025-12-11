@@ -62,9 +62,7 @@ class PresupuestoDAO extends Model {
 
     public function find_id($id){
         try {
-            $query = $this->db->connect()->prepare("
-                SELECT * FROM presupuestos WHERE id_presupuesto = :id LIMIT 1
-            ");
+            $query = $this->db->connect()->prepare("SELECT * FROM presupuestos WHERE id_presupuesto = :id LIMIT 1");
             $query->execute(['id' => $id]);
             $row = $query->fetch(PDO::FETCH_ASSOC);
 
@@ -115,27 +113,21 @@ class PresupuestoDAO extends Model {
         }
     }
 
-    public function hide($id_presupuesto){
+    public function hide($id){
         try {
-            $query = $this->db->connect()->prepare("
-                UPDATE presupuestos SET archivado = 1 WHERE id_presupuesto = :id
-            ");
-            $query->execute(['id' => $id_presupuesto]);
+            $query = $this->db->connect()->prepare("UPDATE presupuestos SET archivado = 1 WHERE id_presupuesto = :id");
+            $query->execute(['id' => $id]);
             return true;
-
         } catch (PDOException $e){
             return false;
         }
     }
 
-    public function delete($id_presupuesto){
+    public function delete($id){
         try {
-            $query = $this->db->connect()->prepare("
-                DELETE FROM presupuestos WHERE id_presupuesto = :id
-            ");
-            $query->execute(['id' => $id_presupuesto]);
+            $query = $this->db->connect()->prepare("DELETE FROM presupuestos WHERE id_presupuesto = :id");
+            $query->execute(['id' => $id]);
             return true;
-
         } catch (PDOException $e){
             return false;
         }
@@ -149,6 +141,16 @@ class PresupuestoDAO extends Model {
         } catch (PDOException $e){
             error_log("PresupuestoDAO::last_insert_id -> ".$e->getMessage());
             return null;
+        }
+    }
+
+    public function update_status($id, $estado){
+        try {
+            $query = $this->db->connect()->prepare("UPDATE presupuestos SET estado = '".$estado."' WHERE id_presupuesto = :id");
+            $query->execute(['id' => $id]);
+            return true;
+        } catch (PDOException $e){
+            return false;
         }
     }
 
